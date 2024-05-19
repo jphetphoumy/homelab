@@ -1,0 +1,21 @@
+- name: Destroy molecule containers
+  hosts: molecule
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: "/nix/store/qwn3l5n2mc73yrsfjh1xyljfph21d3q8-python3-3.11.8-env/bin/python3.11"
+  tasks:
+    - name: Stop and remove container
+      delegate_to: localhost
+      community.docker.docker_container:
+        name: "{{ inventory_hostname }}"
+        state: absent
+        auto_remove: true
+
+- name: Remove dynamic molecule inventory
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Remove dynamic inventory file
+      ansible.builtin.file:
+        path: "{{ molecule_ephemeral_directory }}/inventory/molecule_inventory.yml"
+        state: absent

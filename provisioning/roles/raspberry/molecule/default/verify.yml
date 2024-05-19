@@ -1,0 +1,13 @@
+---
+- name: Verify
+  hosts: molecule
+  tasks:
+    - name: Check that the update has been runned
+      ansible.builtin.command: set -o pipefail && apt upgrade -s | grep -P '^\d+ upgraded'
+      register: update
+      changed_when: false
+
+    - name: Assert there is not more update
+      ansible.builtin.assert:
+        that:
+          - "'0 upgraded' in update.stdout"

@@ -1,0 +1,6 @@
+---
+- name: Test raspberry
+  hosts: localhost
+  remote_user: root
+  roles:
+    - raspberry

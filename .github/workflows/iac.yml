@@ -1,0 +1,32 @@
+name: "Infrastructure as code"
+on: [push]
+jobs:
+  Tofu-Lint:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/opentofu/opentofu:latest
+      volumes:
+        - ${{ github.workspace }}:/srv/workspace
+      options: --workdir=/srv/workspace
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Tofu Lint tf file 
+        run: |
+          find . -name *.tf | xargs tofu fmt --check --diff
+  Ansible-Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install ansible lint 
+        run: |
+          pip3 install ansible-dev-tools
+      - name: Show Ansible lint version
+        run: |
+          ansible-lint --version
+      - name: Lint playbook and roles
+        run: |
+          cd ${{ github.workspace }}/provisioning
+          ansible-galaxy install -r requirements.yml
+          ansible-lint 

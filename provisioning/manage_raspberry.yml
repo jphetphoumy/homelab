@@ -1,0 +1,5 @@
+- name: Manage Raspberry pi cluster
+  hosts: raspberry
+  gather_facts: false
+  roles:
+    - raspberry

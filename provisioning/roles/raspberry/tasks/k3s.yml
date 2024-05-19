@@ -1,0 +1,11 @@
+- name: Deploy k3s
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s_install.sh
+    mode: "0755"
+
+- name: Execute k3s_install.sh
+  become: true
+  ansible.builtin.command: /tmp/k3s_install.sh
+  run_once: true
+  changed_when: false

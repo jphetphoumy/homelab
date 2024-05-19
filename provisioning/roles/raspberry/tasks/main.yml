@@ -1,0 +1,7 @@
+- name: Upgrade
+  ansible.builtin.include_tasks:
+    file: upgrade.yml
+
+- name: Deploy k3s
+  ansible.builtin.include_tasks:
+    file: k3s.yml
