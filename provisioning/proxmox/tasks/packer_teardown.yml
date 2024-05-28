@@ -1,0 +1,12 @@
+---
+- name: Delete packer user
+  become: true
+  shell: >
+    pveum user list | grep -q {{ packer_username }}
+    || echo "USER EXISTS"
+    && pveum user delete {{ packer_username }}
+  register: pveum_user
+  changed_when: pveum_user.stdout != "USER EXISTS"
+  tags:
+    - never
+    - teardown

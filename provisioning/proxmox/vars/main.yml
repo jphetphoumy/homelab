@@ -1,0 +1,5 @@
+---
+packer_username: "packer@pve"
+packer_user_role: "Administrator"
+packer_token_name: "packer_token"
+packer_token_privilege: "0"

@@ -1,0 +1,7 @@
+---
+- include_tasks: packer.yml
+  when: "'teardown' not in ansible_run_tags"
+- include_tasks: packer_teardown.yml
+  tags:
+    - never
+    - teardown
