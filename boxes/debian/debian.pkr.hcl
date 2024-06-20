@@ -25,6 +25,7 @@ source "proxmox-iso" "debian-bookworm" {
   token                    = var.proxmox_token
   insecure_skip_tls_verify = true
   node                     = "proxmox"
+  vm_id = 100
 
 
   iso_checksum = "33c08e56c83d13007e4a5511b9bf2c4926c4aa12fd5dd56d493c0653aecbab380988c5bf1671dbaea75c582827797d98c4a611f7fb2b131fbde2c677d5258ec9"
@@ -93,4 +94,10 @@ build {
   sources = [
     "source.proxmox-iso.debian-bookworm"
   ]
+  provisioner "shell" {
+    execute_command = "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    inline = [
+      "apt-get update && apt-get install pipx git -y",
+    ]
+  }
 }
