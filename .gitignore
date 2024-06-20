@@ -1,2 +1,3 @@
 **/packer_cache
-**/debian.auto.pkrvars.hcl
+**/*.auto.pkrvars.hcl
+**/crash.log
