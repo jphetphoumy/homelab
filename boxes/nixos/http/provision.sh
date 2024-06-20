@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Partition
 parted /dev/sda -- mklabel msdos
