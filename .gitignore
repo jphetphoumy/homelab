@@ -1,5 +1,6 @@
 **/packer_cache
 **/*.auto.pkrvars.hcl
+**/*.auto.tfvars
 **/crash.log
 **/.terraform/*
 # .tfstate files
