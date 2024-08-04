@@ -19,6 +19,14 @@ variable "proxmox_username" {
   type = string
 }
 
+variable "http_ip" {
+    type = string
+}
+
+variable "http_port" {
+    type = number 
+}
+
 source "proxmox-iso" "debian-bookworm" {
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
@@ -47,7 +55,7 @@ source "proxmox-iso" "debian-bookworm" {
 
   # VM disk
   disks {
-    disk_size    = "5G"
+    disk_size    = "50G"
     storage_pool = "local-lvm"
     type         = "scsi"
   }
@@ -68,7 +76,7 @@ source "proxmox-iso" "debian-bookworm" {
     "install <wait>",
     " auto=true",
     " priority=critical",
-    " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+    " preseed/url=http://${var.http_ip}:${var.http_port}/preseed.cfg<wait>",
     " -- <wait>",
     "<enter><wait>"
   ]
@@ -78,9 +86,12 @@ source "proxmox-iso" "debian-bookworm" {
   # SSH Configuration
   ssh_username = "packer"
   ssh_password = "packer"
-  ssh_timeout  = "10m"
+  ssh_timeout  = "15m"
 
-  http_bind_address = "192.168.1.120"
+  http_port_min = var.http_port
+  http_port_max = var.http_port
+
+
 
   unmount_iso = true
 
@@ -94,10 +105,4 @@ build {
   sources = [
     "source.proxmox-iso.debian-bookworm"
   ]
-  provisioner "shell" {
-    execute_command = "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
-    inline = [
-      "apt-get update && apt-get install pipx git -y",
-    ]
-  }
 }
