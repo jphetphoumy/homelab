@@ -15,16 +15,17 @@ source "proxmox-clone" "jenkins-baseline" {
   insecure_skip_tls_verify = true
   node                     = "proxmox"
   tags                     = "ci-cd"
+  task_timeout = "10m"
 
   qemu_agent = true
 
   ssh_username = "root"
 
-  clone_vm   = "debian-bookworm"
-  vm_name    = "jenkins-baseline"
-  cores      = 2
-  os         = "l26"
-  memory     = "4096"
+  clone_vm = "debian-bookworm"
+  vm_name  = "jenkins-baseline"
+  cores    = 2
+  os       = "l26"
+  memory   = "4096"
 
   network_adapters {
     model    = "virtio"
@@ -49,6 +50,6 @@ build {
   ]
   provisioner "shell" {
     execute_command = "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
-    script = "./scripts/provision.sh"
+    script          = "./scripts/provision.sh"
   }
 }

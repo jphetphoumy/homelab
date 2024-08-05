@@ -86,7 +86,7 @@ source "proxmox-iso" "debian-bookworm" {
   # SSH Configuration
   ssh_username = "packer"
   ssh_password = "packer"
-  ssh_timeout  = "15m"
+  ssh_timeout  = "20m"
 
   http_port_min = var.http_port
   http_port_max = var.http_port

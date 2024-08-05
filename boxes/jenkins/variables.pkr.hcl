@@ -9,11 +9,3 @@ variable "proxmox_token" {
 variable "proxmox_username" {
   type = string
 }
-
-variable "http_ip" {
-  type = string
-}
-
-variable "http_port" {
-  type = number
-}
