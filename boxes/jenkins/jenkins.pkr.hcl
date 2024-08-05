@@ -15,7 +15,7 @@ source "proxmox-clone" "jenkins-baseline" {
   insecure_skip_tls_verify = true
   node                     = "proxmox"
   tags                     = "ci-cd"
-  task_timeout = "10m"
+  task_timeout             = "10m"
 
   qemu_agent = true
 

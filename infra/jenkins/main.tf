@@ -62,8 +62,4 @@ resource "proxmox_vm_qemu" "jenkins" {
     host        = self.default_ipv4_address
     private_key = file("~/.ssh/id_ed25519")
   }
-
-  provisioner "remote-exec" {
-    script = "./scripts/jenkins.sh"
-  }
 }
