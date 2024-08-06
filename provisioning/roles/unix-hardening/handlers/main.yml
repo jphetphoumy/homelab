@@ -1,0 +1,4 @@
+---
+- name: Restart sysctl
+  command: /sbin/sysctl -p
+

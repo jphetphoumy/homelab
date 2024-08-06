@@ -1,0 +1,7 @@
+---
+- name: Disable unused services
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items: "{{ unused_services }}"

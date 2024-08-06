@@ -1,0 +1,13 @@
+---
+# tasks file for unix-hardening
+- name: Package installation
+  import_tasks: package_install.yml
+- name: Kernel Hardening
+  import_tasks: kernel_config.yml
+- name: Network configuration
+  import_tasks: network_config.yml
+- name: File permissions hardening
+  import_tasks: file_permissions.yml
+    #- name: Service management
+    #  import_tasks: service_management.yml
+

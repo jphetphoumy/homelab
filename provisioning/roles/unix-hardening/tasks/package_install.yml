@@ -1,0 +1,10 @@
+---
+- name: Ensure the system is updated
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install necessary packages
+  apt:
+    name: "{{ packages }}"
+    state: present

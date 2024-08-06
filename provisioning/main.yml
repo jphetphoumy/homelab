@@ -1,0 +1,7 @@
+---
+- name: Bootstrap Homelab
+  hosts: all
+  gather_facts: false
+  become: true
+  roles:
+    - unix-hardening
