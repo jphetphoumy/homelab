@@ -7,18 +7,6 @@ packer {
   }
 }
 
-variable "proxmox_url" {
-  type = string
-}
-
-variable "proxmox_token" {
-  type = string
-}
-
-variable "proxmox_username" {
-  type = string
-}
-
 source "proxmox-iso" "debian-bookworm" {
   proxmox_url              = var.proxmox_url
   username                 = var.proxmox_username
@@ -29,7 +17,6 @@ source "proxmox-iso" "debian-bookworm" {
 
 
   iso_checksum = "33c08e56c83d13007e4a5511b9bf2c4926c4aa12fd5dd56d493c0653aecbab380988c5bf1671dbaea75c582827797d98c4a611f7fb2b131fbde2c677d5258ec9"
-  #iso_url =  "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso"
   iso_file         = "local:iso/debian-12.5.0-amd64-netinst.iso"
   iso_storage_pool = "local"
 
@@ -68,7 +55,7 @@ source "proxmox-iso" "debian-bookworm" {
     "install <wait>",
     " auto=true",
     " priority=critical",
-    " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+    " preseed/url=http://${var.http_ip}:${var.http_port}/preseed.cfg<wait>",
     " -- <wait>",
     "<enter><wait>"
   ]
@@ -78,9 +65,10 @@ source "proxmox-iso" "debian-bookworm" {
   # SSH Configuration
   ssh_username = "packer"
   ssh_password = "packer"
-  ssh_timeout  = "10m"
+  ssh_timeout  = "20m"
 
-  http_bind_address = "192.168.1.120"
+  http_port_min = var.http_port
+  http_port_max = var.http_port
 
   unmount_iso = true
 
@@ -94,10 +82,4 @@ build {
   sources = [
     "source.proxmox-iso.debian-bookworm"
   ]
-  provisioner "shell" {
-    execute_command = "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
-    inline = [
-      "apt-get update && apt-get install pipx git -y",
-    ]
-  }
 }
