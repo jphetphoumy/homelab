@@ -1,0 +1,11 @@
+name: "Ansible CI"
+on: [push]
+jobs:
+  Ansible-Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install ansible lint 
+        run: |
+          pip3 install ansible-dev-tools
