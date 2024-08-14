@@ -28,4 +28,5 @@ jobs:
       - name: Lint playbook and roles
         run: |
           cd ${{ github.workspace }}/provisioning
+          ansible-galaxy install -r requirements.yml
           ansible-lint 
