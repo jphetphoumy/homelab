@@ -27,4 +27,5 @@ jobs:
           ansible-lint --version
       - name: Lint playbook and roles
         run: |
-          ansible-lint ${{ github.workspace }}/provisioning
+          cd ${{ github.workspace }}/provisioning
+          ansible-lint 
