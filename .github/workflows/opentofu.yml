@@ -1,0 +1,9 @@
+name: "OpenTofu CI"
+on: [push]
+jobs:
+  Tofu-Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
