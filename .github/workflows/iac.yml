@@ -14,7 +14,6 @@ jobs:
       - name: Tofu Lint tf file 
         run: |
           find . -name *.tf | xargs tofu fmt --check --diff
-jobs:
   Ansible-Lint:
     runs-on: ubuntu-latest
     steps:
