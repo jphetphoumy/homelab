@@ -22,5 +22,6 @@ jobs:
       - name: Install ansible lint 
         run: |
           pip3 install ansible-dev-tools
-      - name: |
+      - name: Lint playbook and roles
+        run: |
           ansible-lint ${{ github.workspace }}/provisioning
