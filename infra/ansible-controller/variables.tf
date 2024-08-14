@@ -1,5 +1,5 @@
 variable "proxmox_api_url" {
-  type    = string
+  type = string
   default = "http://192.168.1.212/api2/json"
 }
 

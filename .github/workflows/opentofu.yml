@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Check lint
+      - name: Tofu Lint tf file 
         run: |
-          tofu fmt --check --diff
+          find . -name *.tf | xargs tofu fmt --check --diff
