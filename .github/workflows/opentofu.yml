@@ -3,7 +3,14 @@ on: [push]
 jobs:
   Tofu-Lint:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/opentofu/opentofu:latest
+      volumes:
+        - ${{ github.workspace }}:/srv/workspace
+      options: --workdir=/srv/workspace
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      
+      - name: Check lint
+        run: |
+          tofu fmt --check --diff
