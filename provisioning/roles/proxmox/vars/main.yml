@@ -1,0 +1,5 @@
+---
+proxmox_packer_username: "packer@pve"
+proxmox_packer_user_role: "Administrator"
+proxmox_packer_token_name: "packer_token"
+proxmox_packer_token_privilege: "0"

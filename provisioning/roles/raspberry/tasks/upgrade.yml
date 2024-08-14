@@ -2,15 +2,15 @@
 # tasks file for raspberry
 - name: Update package
   become: true
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
 
-- name: Upgrade raspberry pi 
+- name: Upgrade raspberry pi
   become: true
-  apt:
+  ansible.builtin.apt:
     upgrade: dist
-    autoremove: yes
-    autoclean: yes
+    autoremove: true
+    autoclean: true
 
 - name: Check if reboot is required
   ansible.builtin.stat:
@@ -23,4 +23,3 @@
     post_reboot_delay: 30
     test_command: "whoami"
   when: reboot_required.stat.exists
-

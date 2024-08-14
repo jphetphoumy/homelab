@@ -43,7 +43,7 @@
         dest: "{{ molecule_ephemeral_directory }}/inventory/molecule_inventory.yml"
         mode: "0600"
 
-    - name: refresh inventory
+    - name: Refresh inventory
       ansible.builtin.meta: refresh_inventory
 
 - name: Validate that inventory was refreshed
@@ -66,7 +66,7 @@
 
     - name: Update
       ansible.builtin.apt:
-        update_cache: yes
+        update_cache: true
 
     - name: Display uname info
       ansible.builtin.debug:

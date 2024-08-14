@@ -1,0 +1,32 @@
+---
+- name: Create packer user
+  become: true
+  ansible.builtin.shell: >
+    set -o pipefail
+    pveum user list | grep -q {{ proxmox_packer_username }}
+    && echo "USER DOES NOT EXIST"
+    || pveum user add {{ proxmox_packer_username }}
+  register: pveum_user
+  changed_when: pveum_user.stdout != "USER DOES NOT EXIST"
+- name: Add packer user to packer role
+  become: true
+  ansible.builtin.shell: >
+    set -o pipefail
+    pveum acl list | grep -q {{ proxmox_packer_username }}
+    && echo "NO ACL FOR USER"
+    || pveum aclmod / -user {{ proxmox_packer_username }} -role {{ proxmox_packer_user_role }}
+  register: pveum_acl_mod
+  changed_when: pveum_acl_mod.stdout != "NO ACL FOR USER"
+
+- name: Generate an API token for the user
+  become: true
+  ansible.builtin.shell: >
+    set -o pipefail
+    pveum user token list {{ proxmox_packer_username }} | grep -q {{ proxmox_packer_token_name }}
+    && echo "TOKEN DOES NOT EXIST"
+    || pveum user token add {{ proxmox_packer_username }} {{ proxmox_packer_token_name }} -privsep {{ proxmox_packer_token_privilege }}
+  register: pveum_token
+  changed_when: pveum_token.stdout != "TOKEN DOES NOT EXIST"
+  notify:
+    - Parse the token value
+    - Display the API token
