@@ -1,4 +1,18 @@
 ---
+- name: Create /etc/ansible
+  ansible.builtin.file:
+    path: /etc/ansible
+    state: directory
+    mode: '0644'
+  
+- name: Copy ansible.cfg
+  ansible.builtin.copy:
+    src: ansible.cfg
+    dest: /etc/ansible/ansible.cfg
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Create systemd ansible-update service
   ansible.builtin.template:
     src: ansible-update.service.j2
