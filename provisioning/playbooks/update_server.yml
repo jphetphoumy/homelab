@@ -1,0 +1,5 @@
+---
+- name: Manage all Homelab server 
+  hosts: all 
+  roles:
+    - common

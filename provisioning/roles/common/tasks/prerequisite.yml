@@ -1,0 +1,21 @@
+---
+- name: Update packages
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 86400 # One day Valid
+
+- name: Install pipx
+  ansible.builtin.apt:
+    name: pipx
+    state: latest 
+
+- name: Install ansible
+  community.general.pipx:
+    name: ansible
+    state: latest
+
+- name: Install all needed packages
+  ansible.builtin.apt:
+    pkg: 
+      - vim 
+    state: latest

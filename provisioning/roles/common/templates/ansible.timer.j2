@@ -1,0 +1,11 @@
+[Unit]
+Description="Run Ansible update 5min after boot and Friday at 4:00"
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=25h
+OnCalendar=Fri *-*-* 4:00:*
+Unit=ansible-update.service
+
+[Install]
+WantedBy=multi-user.target

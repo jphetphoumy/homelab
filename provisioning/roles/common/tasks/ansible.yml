@@ -1,0 +1,6 @@
+---
+- name: Setup systemd timer
+  ansible.builtin.systemd_service:
+    name: ansible-update.timer
+    state: started
+    enabled: true
