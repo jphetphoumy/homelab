@@ -4,6 +4,10 @@
     update_cache: true
     cache_valid_time: 86400 # One day Valid
 
+- name: Get current packages
+  ansible.builtin.package_facts:
+    manager: auto
+
 - name: Install pipx
   ansible.builtin.apt:
     name: pipx

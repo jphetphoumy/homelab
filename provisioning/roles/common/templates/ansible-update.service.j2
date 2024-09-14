@@ -1,0 +1,6 @@
+[Unit]
+Description="Ansible update"
+
+[Service]
+Environment="ANSIBLE_ROLE_PATH=/root/homelab/provisioning/roles"
+ExecStart="/root/.local/pipx/venvs/ansible/bin/ansible-pull --url https://github.com/jphetphoumy/homelab -C production  -d /root/homelab /root/homelab/provisioning/playbooks/update_server.yml -i /root/homelab/provisioning/inventory.yml"

@@ -1,6 +1,22 @@
 ---
-- name: Setup systemd timer
-  ansible.builtin.systemd_service:
-    name: ansible-update.timer
-    state: started
-    enabled: true
+- name: Create systemd ansible-update service
+  ansible.builtin.template:
+    src: ansible-update.service.j2
+    dest: /lib/systemd/system/ansible-update.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Systemd daemon-reload
+    - Enable ansible-update.service
+
+- name: Create systemd ansible-update timer
+  ansible.builtin.template:
+    src: ansible-update.timer.j2
+    dest: /lib/systemd/system/ansible-update.timer
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Systemd daemon-reload
+    - Enable ansible-update.timer

@@ -1,5 +1,0 @@
-[Unit]
-Description="Ansible update"
-
-[Service]
-ExecStart=ansible-pull

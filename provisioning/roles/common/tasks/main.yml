@@ -2,3 +2,5 @@
 # tasks file for common
 - name: Install pre-requisite 
   include_tasks: prerequisite.yml
+- name: Manage ansible-pull
+  include_tasks: ansible.yml
