@@ -1,0 +1,4 @@
+- name: Manage Jenkins
+  hosts: all
+  roles:
+    - docker
