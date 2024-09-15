@@ -1,4 +1,10 @@
+
 - name: Manage Jenkins
-  hosts: all
+  hosts: all:!proxmox
+  pre_tasks:
+    - name: Pre requisite
+      ansible.builtin.include_role:
+        name: common
   roles:
     - docker
+    - jenkins

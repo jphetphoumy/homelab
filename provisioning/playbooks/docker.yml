@@ -1,0 +1,4 @@
+- name: Manage docker
+  hosts: all
+  roles:
+    - docker

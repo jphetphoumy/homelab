@@ -1,4 +1,6 @@
 .env
 *.auto.tfvars
 .terraform
-terraform.state.*
+terraform.tfstate.*
+terraform.tfstate
+tofu.plan

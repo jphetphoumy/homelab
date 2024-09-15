@@ -7,8 +7,11 @@ hyperivsor:
 lxc_container:
   hosts:
     runick:
-      ansible_user: root
-      ansible_host: 192.168.1.220
+jenkins:
+  hosts:
+    runick:
 all:
   children:
     hypervisor:
+    lxc_container:
+    jenkins:

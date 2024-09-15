@@ -1,0 +1,15 @@
+---
+- name: Remove docker 
+  ansible.builtin.apt:
+    pkg: 
+      - docker-ce 
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin 
+    purge: true
+    autoremove: true
+    state: absent
+  tags:
+    - teardown
+    - never

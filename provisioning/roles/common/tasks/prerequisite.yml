@@ -22,4 +22,5 @@
   ansible.builtin.apt:
     pkg: 
       - vim 
+      - sudo
     state: latest

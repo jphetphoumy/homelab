@@ -1,2 +1,63 @@
 ---
 # tasks file for jenkins
+- name: Create jenkins user
+  ansible.builtin.user:
+    name: jenkins
+    comment: "manage jenkins"
+    create_home: true
+    shell: /bin/bash
+    group: docker
+
+- name: Create jenkin network
+  community.docker.docker_network:
+    name: jenkins 
+
+- name: Create jenkins-docker
+  community.docker.docker_container:
+    name: "jenkins-docker"
+    image: "docker:dind"
+    detach: true
+    privileged: true
+    env:
+      DOCKER_TLS_CERTDIR: "/certs"
+    networks:
+      - name: "jenkins"
+        aliases: "docker"
+    published_ports:
+      - "2376:2376"
+    volumes:
+      - "jenkins-docker-certs:/certs/client"
+      - "jenkins-data:/var/jenkins_home"
+
+- name: Copy Dockerfile on remote host
+  ansible.builtin.template:
+    src: Dockerfile.j2
+    dest: /root/Dockerfile
+    owner: root 
+    group: root
+    mode: '0644' 
+
+- name: Build custom image 
+  community.docker.docker_image_build:
+    name: "jenkins-blueocean:2.462.2-1"
+    path: /root
+    dockerfile: Dockerfile
+
+- name: Create jenkins-docker
+  community.docker.docker_container:
+    name: "jenkins-blueocean"
+    image: "jenkins-blueocean:2.462.2-1"
+    restart_policy: "on-failure"
+    detach: true
+    env:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: "1"
+    networks:
+      - name: "jenkins"
+    published_ports:
+      - "50000:50000"
+      - "8080:8080"
+    volumes:
+      - "jenkins-data:/var/jenkins_home"
+      - "jenkins-docker-certs:/certs/client:ro"

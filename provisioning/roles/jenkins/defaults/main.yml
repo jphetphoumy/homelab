@@ -1,2 +1,3 @@
 ---
 # defaults file for jenkins
+jenkins_enable_wizard: false
