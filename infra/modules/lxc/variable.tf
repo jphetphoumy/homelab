@@ -27,3 +27,11 @@ variable "ip_gateway" {
   type    = string
   default = "192.168.1.1"
 }
+
+variable "tags" {
+    type = list(string)
+}
+
+variable "vm_id" {
+    type = string
+}

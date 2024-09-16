@@ -6,6 +6,9 @@ module "runick" {
   filename = "debian-12-standard_12.7-1_amd64.tar.zst"
   file_url = "http://download.proxmox.com/images/system/debian-12-standard_12.7-1_amd64.tar.zst"
 
+  vm_id = "220"
   hostname = "runick"
   ip_address = "192.168.1.220/24"
+
+  tags = ["linux", "cicd", "jenkins-master"]
 }

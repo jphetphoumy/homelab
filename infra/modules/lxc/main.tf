@@ -12,9 +12,10 @@ resource "proxmox_virtual_environment_container" "lxc" {
   description = "Managed by opentofu"
 
   unprivileged = true
+  tags = var.tags
 
   node_name = "proxmox"
-  vm_id     = "200"
+  vm_id     = var.vm_id
 
   disk {
     datastore_id = "local-lvm"
