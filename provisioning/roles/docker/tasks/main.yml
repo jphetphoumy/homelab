@@ -1,22 +1,20 @@
 ---
 # tasks file for docker
 - name: Uninstall Docker
-  include_tasks: teardown.yml
+  ansible.builtin.include_tasks: teardown.yml
   tags:
     - teardown
 
 - name: Uninstall old version
-  include_tasks: uninstall_old.yml
-
+  ansible.builtin.include_tasks: uninstall_old.yml
 - name: Prerequisite
-  include_tasks: prerequisite.yml
-
+  ansible.builtin.include_tasks: prerequisite.yml
 - name: Install docker
   ansible.builtin.apt:
-    pkg: 
-      - docker-ce 
+    pkg:
+      - docker-ce
       - docker-ce-cli
       - containerd.io
       - docker-buildx-plugin
-      - docker-compose-plugin 
+      - docker-compose-plugin
     state: present

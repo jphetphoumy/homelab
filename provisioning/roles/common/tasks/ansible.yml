@@ -3,15 +3,15 @@
   ansible.builtin.file:
     path: /etc/ansible
     state: directory
-    mode: '0644'
-  
+    mode: "0644"
+
 - name: Copy ansible.cfg
   ansible.builtin.copy:
     src: ansible.cfg
     dest: /etc/ansible/ansible.cfg
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: Create systemd ansible-update service
   ansible.builtin.template:
@@ -19,7 +19,7 @@
     dest: /lib/systemd/system/ansible-update.service
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   notify:
     - Systemd daemon-reload
     - Enable ansible-update.service
@@ -30,7 +30,7 @@
     dest: /lib/systemd/system/ansible-update.timer
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   notify:
     - Systemd daemon-reload
     - Enable ansible-update.timer

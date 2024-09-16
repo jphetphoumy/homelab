@@ -10,4 +10,5 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli
 USER jenkins
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard={{ jenkins_enable_wizard}}"
-RUN jenkins-plugin-cli --plugins "blueocean docker-workflow json-path-api"
+ENV CASC_JENKINS_CONFIG /var/jenkins_home/casc.yaml
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow json-path-api configuration-as-code"

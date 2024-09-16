@@ -4,32 +4,41 @@
   ansible.builtin.user:
     name: "{{ node_exporter_user }}"
     shell: /usr/sbin/nologin
-    system: yes
-    create_home: no
+    system: true
+    create_home: false
+
+- name: Check if node-exporter binary already exist
+  ansible.builtin.stat:
+    path: "{{ node_exporter_bin_dir}}/node_exporter"
+  register: node_exporter_result
 
 - name: Download node-exporter
   ansible.builtin.get_url:
-    url: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture }}.tar.gz
+    url: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture
+      }}.tar.gz
     dest: /tmp/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture }}.tar.gz
-    mode: '0755'
+    mode: "0755"
+  when: not node_exporter_result.stat.exists
 
 - name: Extract node-exporter
   ansible.builtin.unarchive:
     src: /tmp/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture }}.tar.gz
     dest: /usr/local/
-    remote_src: yes
-    creates: "/usr/local/node_exporter-{{ node_exporter_version }}" 
+    remote_src: true
+    creates: /usr/local/node_exporter-{{ node_exporter_version }}
+  when: not node_exporter_result.stat.exists
 
 - name: Move node-exporter binary to /usr/local/bin
   ansible.builtin.command:
     cmd: mv /usr/local/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_architecture }}/node_exporter {{ node_exporter_bin_dir }}/node_exporter
   args:
     creates: "{{ node_exporter_bin_dir }}/node_exporter"
+  when: not node_exporter_result.stat.exists
 
 - name: Ensure node_exporter binary is executable
   ansible.builtin.file:
     path: "{{ node_exporter_bin_dir }}/node_exporter"
-    mode: '0755'
+    mode: "0755"
 
 - name: Remove the downloaded archive
   ansible.builtin.file:
@@ -40,14 +49,14 @@
   ansible.builtin.template:
     src: node_exporter.service.j2
     dest: "{{ node_exporter_systemd_file }}"
-    mode: '0644'
+    mode: "0644"
 
 - name: Reload systemd to register node_exporter service
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Enable node_exporter service
   ansible.builtin.systemd:
     name: node_exporter
-    enabled: yes
+    enabled: true
     state: started

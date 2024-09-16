@@ -1,0 +1,3 @@
+---
+- name: Install jenkins master node
+  ansible.builtin.include_tasks: jenkins_master.yml

@@ -1,0 +1,22 @@
+jenkins:
+  securityRealm:
+    local:
+      users:
+      - id: admin
+        password: admin
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - basicSSHUserPrivateKey:
+              scope: SYSTEM
+              id: ssh_with_passphrase_provided
+              username: root
+              passphrase: admin 
+              description: "SSH passphrase with private key file. Private key provided"
+              privateKeySource:
+                directEntry:
+                  privateKey: "${readfile:/home/jenkins/.ssh/id_rsa}"
+unclassified:
+  location:
+    url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8080

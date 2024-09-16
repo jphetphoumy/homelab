@@ -4,7 +4,7 @@
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: Enable ansible-update.timer 
+- name: Enable ansible-update.timer
   ansible.builtin.systemd:
     name: ansible-update.timer
     state: started

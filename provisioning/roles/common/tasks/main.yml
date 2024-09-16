@@ -1,13 +1,10 @@
 ---
 # tasks file for common
-- name: Install pre-requisite 
-  include_tasks: prerequisite.yml
-
+- name: Install pre-requisite
+  ansible.builtin.include_tasks: prerequisite.yml
 - name: Manage ansible-pull
-  include_tasks: ansible.yml
-
+  ansible.builtin.include_tasks: ansible.yml
 - name: Manage users
-  include_tasks: users.yml
-
+  ansible.builtin.include_tasks: users.yml
 - name: Manage ssh keys
-  include_tasks: ssh.yml
+  ansible.builtin.include_tasks: ssh.yml

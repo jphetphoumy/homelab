@@ -1,6 +1,6 @@
 ---
-- name: Manage all Homelab server 
-  hosts: all 
+- name: Manage all Homelab server
+  hosts: all
   roles:
     - common
     - node-exporter

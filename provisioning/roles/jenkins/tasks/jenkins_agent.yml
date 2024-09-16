@@ -1,0 +1,18 @@
+---
+- name: Create jenkins-docker
+  community.docker.docker_container:
+    name: jenkins-agent
+    image: docker:dind
+    detach: true
+    privileged: true
+    env:
+      DOCKER_TLS_CERTDIR: /certs
+    networks:
+      - name: jenkins
+        aliases: docker
+    published_ports:
+      - 2376:2376
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+  when: "jenkins_master is defined and jenkins_master == True"

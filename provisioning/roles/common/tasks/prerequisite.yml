@@ -11,7 +11,7 @@
 - name: Install pipx
   ansible.builtin.apt:
     name: pipx
-    state: latest 
+    state: latest
 
 - name: Install ansible
   community.general.pipx:
@@ -20,7 +20,7 @@
 
 - name: Install all needed packages
   ansible.builtin.apt:
-    pkg: 
-      - vim 
+    pkg:
+      - vim
       - sudo
     state: latest

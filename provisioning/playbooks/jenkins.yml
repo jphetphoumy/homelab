@@ -1,10 +1,13 @@
-
+---
 - name: Manage Jenkins
   hosts: all:!proxmox
   pre_tasks:
     - name: Pre requisite
       ansible.builtin.include_role:
         name: common
+    - name: Install node-exporter
+      ansible.builtin.include_role:
+        name: node-exporter
   roles:
     - docker
     - jenkins

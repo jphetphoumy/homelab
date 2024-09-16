@@ -2,7 +2,7 @@
 - name: Create user
   ansible.builtin.user:
     name: "{{ common_admin_user }}"
-    comment: "Admin user"
+    comment: Admin user
     create_home: true
     shell: /bin/bash
-  when: "common_admin_user is defined"
+  when: common_admin_user is defined
