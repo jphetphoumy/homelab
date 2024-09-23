@@ -1,18 +1,28 @@
 ---
+- name: Copy Dockerfile on remote host
+  ansible.builtin.template:
+    src: Dockerfile.jenkins_agent.j2
+    dest: /root/Dockerfile
+    owner: root
+    group: root
+    mode: "0644"
+  when: "jenkins_master is defined and jenkins_master == False"
+
+- name: Build custom image
+  community.docker.docker_image_build:
+    name: jenkins-agent
+    path: /root
+    dockerfile: Dockerfile
+  when: "jenkins_master is defined and jenkins_master == False"
+
 - name: Create jenkins-docker
   community.docker.docker_container:
     name: jenkins-agent
-    image: docker:dind
+    image: jenkins-agent
     detach: true
-    privileged: true
     env:
       DOCKER_TLS_CERTDIR: /certs
-    networks:
-      - name: jenkins
-        aliases: docker
+      JENKINS_AGENT_SSH_PUBKEY: "{{ jenkins_public_key }}"
     published_ports:
-      - 2376:2376
-    volumes:
-      - jenkins-docker-certs:/certs/client
-      - jenkins-data:/var/jenkins_home
-  when: "jenkins_master is defined and jenkins_master == True"
+      - "4444:22"
+  when: "jenkins_master is defined and jenkins_master == False"

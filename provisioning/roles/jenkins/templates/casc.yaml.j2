@@ -7,22 +7,27 @@ jenkins:
         password: admin
   authorizationStrategy:
     globalMatrix:
-      permissions:
-        - "Overall/Administer:admin"
-        - "Overall/Read:authenticated"
+      entries:
+      - user:
+          name: "admin"
+          permissions:
+           - "Overall/Administer"
+      - group:
+          name: "authenticated"
+          permissions:
+          - "Overall/Read"
 credentials:
   system:
     domainCredentials:
       - credentials:
           - basicSSHUserPrivateKey:
-              scope: SYSTEM
-              id: ssh_with_passphrase_provided
-              username: root
-              passphrase: admin 
-              description: "SSH passphrase with private key file. Private key provided"
+              scope: GLOBAL
+              username: jenkins
+              id: jenkins
+              description: "SSH Key for agent"
               privateKeySource:
                 directEntry:
-                  privateKey: "${readfile:/home/jenkins/.ssh/id_rsa}"
+                  privateKey: "{{ jenkins_ssh_private_key }}"
 unclassified:
   location:
     url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8080

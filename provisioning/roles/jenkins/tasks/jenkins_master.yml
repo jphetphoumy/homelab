@@ -25,7 +25,7 @@
 
 - name: Copy Dockerfile on remote host
   ansible.builtin.template:
-    src: Dockerfile.j2
+    src: Dockerfile.jenkins_master.j2
     dest: /root/Dockerfile
     owner: root
     group: root

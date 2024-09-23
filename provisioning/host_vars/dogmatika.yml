@@ -1,0 +1,4 @@
+---
+ansible_user: root
+ansible_host: 192.168.1.221
+jenkins_master: false

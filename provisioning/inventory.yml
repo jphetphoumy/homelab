@@ -11,6 +11,7 @@ lxc_container:
 jenkins:
   hosts:
     runick:
+    dogmatika:
 all:
   children:
     hypervisor:

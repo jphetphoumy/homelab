@@ -1,3 +1,5 @@
 ---
 - name: Install jenkins master node
   ansible.builtin.include_tasks: jenkins_master.yml
+- name: Install jenkins agent node
+  ansible.builtin.include_tasks: jenkins_agent.yml
