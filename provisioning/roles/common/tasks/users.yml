@@ -6,3 +6,17 @@
     create_home: true
     shell: /bin/bash
   when: common_admin_user is defined
+
+- name: Add user to sudoers
+  community.general.sudoers:
+    name: "{{ common_admin_user }}"
+    state: present
+    user: "{{ common_admin_user }}"
+    runas: root
+    commands: ALL
+
+- name: Add ssh key to authorized key for user admin
+  ansible.posix.authorized_key:
+    user: "{{ common_admin_user }}"
+    state: present
+    key: "{{ lookup('file', '/home/jphetphoumy/.ssh/id_ed25519.pub') }}"

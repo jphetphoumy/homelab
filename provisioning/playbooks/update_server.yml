@@ -1,6 +1,10 @@
 ---
 - name: Manage all Homelab server
   hosts: all
+  become: true
   roles:
     - common
+- name: Install node-exporter
+  hosts: all:!raspberry
+  roles:
     - node-exporter

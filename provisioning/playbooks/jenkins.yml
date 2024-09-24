@@ -1,6 +1,20 @@
 ---
+- name: Update and manage common packages
+  become: true
+  hosts: jenkins
+  roles:
+    - common
+
+- name: Security Hardening
+  become: true
+  hosts: jenkins
+  roles:
+    - ssh-hardening
 - name: Manage Jenkins
-  hosts: all:!proxmox
+  hosts: jenkins
+  become: true
+  vars:
+    jenkins_url: "jenkins.hackandpwned.homelab"
   pre_tasks:
     - name: Pre requisite
       ansible.builtin.include_role:

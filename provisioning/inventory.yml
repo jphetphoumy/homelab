@@ -5,6 +5,16 @@ hyperivsor:
       ansible_user: root
       ansible_host: 192.168.1.212
       ansible_python_interpreter: /usr/bin/python3.11
+raspberry:
+  hosts:
+    rpi_master:
+      ansible_host: 192.168.1.176
+    rpi_node1:
+      ansible_host: 192.168.1.149
+    rpi_node2:
+      ansible_host: 192.168.1.5
+    rpi_node3:
+      ansible_host: 192.168.1.168
 lxc_container:
   hosts:
     runick:
@@ -12,8 +22,12 @@ jenkins:
   hosts:
     runick:
     dogmatika:
+dns:
+  hosts:
+    orcust:
 all:
   children:
     hypervisor:
     lxc_container:
     jenkins:
+    raspberry:

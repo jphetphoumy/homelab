@@ -1,0 +1,17 @@
+- name: Install common package to DNS server
+  hosts: dns
+  become: true
+  roles:
+    - common
+
+- name: Harden SSH 
+  hosts: dns
+  become: true
+  roles:
+    - ssh-hardening 
+
+- name: Manage DNS servers
+  become: true
+  hosts: dns
+  roles:
+    - bind9

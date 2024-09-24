@@ -1,0 +1,5 @@
+---
+# defaults file for bind9
+bind9_zone:
+  - name: "hackandpwned.homelab"
+    file: "db.homelab"

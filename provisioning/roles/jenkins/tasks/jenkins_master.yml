@@ -4,7 +4,6 @@
     name: jenkins
   when: "jenkins_master is defined and jenkins_master == True"
 
-
 - name: Create jenkins-docker
   community.docker.docker_container:
     name: jenkins-docker
@@ -23,10 +22,16 @@
       - jenkins-data:/var/jenkins_home
   when: "jenkins_master is defined and jenkins_master == True"
 
+- name: Create /opt/jenkins
+  ansible.builtin.file:
+    path: /opt/jenkins
+    state: directory
+    mode: 0750
+
 - name: Copy Dockerfile on remote host
   ansible.builtin.template:
-    src: Dockerfile.jenkins_master.j2
-    dest: /root/Dockerfile
+    src: Dockerfile.jenkins-master.j2
+    dest: /opt/jenkins/Dockerfile
     owner: root
     group: root
     mode: "0644"
@@ -35,7 +40,7 @@
 - name: Copy configuration as code
   ansible.builtin.template:
     src: casc.yaml.j2
-    dest: /root/casc.yaml
+    dest: /opt/jenkins/casc.yaml
     owner: root
     group: root
     mode: "0644"
@@ -44,7 +49,7 @@
 - name: Build custom image
   community.docker.docker_image_build:
     name: jenkins-blueocean:2.462.2-1
-    path: /root
+    path: /opt/jenkins
     dockerfile: Dockerfile
   when: "jenkins_master is defined and jenkins_master == True"
 
@@ -65,6 +70,6 @@
       - 8080:8080
     volumes:
       - jenkins-data:/var/jenkins_home
-      - ./casc.yaml:/var/jenkins_home/casc.yaml
+      - /opt/jenkins/casc.yaml:/var/jenkins_home/casc.yaml
       - jenkins-docker-certs:/certs/client:ro
   when: "jenkins_master is defined and jenkins_master == True"

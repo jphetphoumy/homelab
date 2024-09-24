@@ -1,2 +1,17 @@
 ---
 # tasks file for ssh-hardening
+- name: Disable root login
+  lineinfile:
+    path: "{{ ssh_hardening_config_file }}"
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    backup: yes
+  notify: restart sshd
+
+- name: Disable password authentication
+  lineinfile:
+    path: "{{ ssh_hardening_config_file }}"
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    backup: yes
+  notify: restart sshd

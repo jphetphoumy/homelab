@@ -27,7 +27,7 @@ credentials:
               description: "SSH Key for agent"
               privateKeySource:
                 directEntry:
-                  privateKey: "{{ jenkins_ssh_private_key }}"
+                  privateKey: "${readfile:/home/jenkins/.ssh/id_rsa}"
 unclassified:
   location:
-    url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8080
+    url: http://{{ jenkins_url }}:8080

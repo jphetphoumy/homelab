@@ -1,0 +1,6 @@
+{% for zone in bind9_zone %}
+zone "{{ zone.name}}" {
+        type master;
+        file "/etc/bind/{{ zone.file }}";
+};
+{% endfor %}

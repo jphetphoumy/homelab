@@ -1,2 +1,3 @@
 ---
 # defaults file for ssh-hardening
+ssh_hardening_config_file: "/etc/ssh/sshd_config"
