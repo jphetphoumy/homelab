@@ -1,0 +1,5 @@
+---
+# defaults file for adguard-home
+adguard_image: "adguard/adguardhome"
+adguard_container_name: "adguardhome"
+adguard_restart_policy: "unless-stopped"

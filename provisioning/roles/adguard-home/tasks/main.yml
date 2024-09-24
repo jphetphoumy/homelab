@@ -1,0 +1,35 @@
+---
+# tasks file for adguard-home
+- name: Create AdGuard Home work directory
+  file:
+    path: "{{ adguard_workdir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create AdGuard Home configuration directory
+  file:
+    path: "{{ adguard_confdir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Pull the latest AdGuard Home image
+  docker_image:
+    name: "{{ adguard_image }}"
+    source: pull
+    force_source: true
+    state: present
+
+- name: Run AdGuard Home container
+  docker_container:
+    name: "{{ adguard_container_name }}"
+    image: "{{ adguard_image }}"
+    state: started
+    restart_policy: "{{ adguard_restart_policy }}"
+    volumes:
+      - "{{ adguard_workdir }}:/opt/adguardhome/work"
+      - "{{ adguard_confdir }}:/opt/adguardhome/conf"
+    published_ports: "{{ adguard_ports }}"
