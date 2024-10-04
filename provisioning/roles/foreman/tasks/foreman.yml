@@ -1,0 +1,41 @@
+---
+- name: Download foreman trusted key 
+  ansible.builtin.get_url:
+    url: "https://deb.theforeman.org/foreman.asc"
+    dest: /etc/apt/trusted.gpg.d/foreman.asc
+    mode: '0644'
+
+- name: Add foreman source.list
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.theforeman.org/ {{ ansible_distribution_release }} {{ foreman_version }}
+    state: present
+    filename: foreman 
+
+- name: Add foreman source.list plugin
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.theforeman.org/ plugins {{ foreman_version }}
+    state: present
+    filename: foreman 
+
+- name: Update cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install foreman-installer
+  ansible.builtin.apt:
+    name: foreman-installer
+
+- name: Ensure locale 'fr_FR.UTF-8' is generated
+  ansible.builtin.locale_gen:
+    name: fr_FR.UTF-8
+    state: present 
+
+- name: Set default locale to 'fr_FR.UTF-8'
+  ansible.builtin.copy:
+    dest: /etc/default/locale
+    content: |
+      LANG=fr_FR.UTF-8
+  register: locale_output
+
+- name: Reconfigure locales
+  ansible.builtin.command: dpkg-reconfigure -f noninteractive locales

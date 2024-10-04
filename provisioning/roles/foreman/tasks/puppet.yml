@@ -1,0 +1,10 @@
+---
+- name: Download puppet
+  ansible.builtin.get_url:
+    url: "https://apt.puppet.com/puppet{{ foreman_puppet_version }}-release-{{ ansible_distribution_release }}.deb"
+    dest: /tmp
+    mode: '0750'
+
+- name: Install puppet
+  ansible.builtin.apt:
+    deb: "/tmp/puppet{{ foreman_puppet_version }}-release-{{ ansible_distribution_release }}.deb"

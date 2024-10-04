@@ -48,15 +48,22 @@
 
 - name: Build custom image
   community.docker.docker_image_build:
-    name: jenkins-blueocean:2.462.2-1
+    name: "jenkins-blueocean:{{ jenkins_version }}-1"
     path: /opt/jenkins
     dockerfile: Dockerfile
+  when: "jenkins_master is defined and jenkins_master == True"
+
+- name: Generate jenkins ssh key
+  community.crypto.openssh_keypair:
+    path: /opt/jenkins/jenkins_agent_key
+    type: ed25519
+  register: ssh_private_key
   when: "jenkins_master is defined and jenkins_master == True"
 
 - name: Create jenkins-docker
   community.docker.docker_container:
     name: jenkins-blueocean
-    image: jenkins-blueocean:2.462.2-1
+    image: "jenkins-blueocean:{{ jenkins_version }}-1"
     restart_policy: on-failure
     detach: true
     env:
@@ -71,5 +78,18 @@
     volumes:
       - jenkins-data:/var/jenkins_home
       - /opt/jenkins/casc.yaml:/var/jenkins_home/casc.yaml
+      - /opt/jenkins/jenkins_agent_key:/home/.ssh/jenkins_agent_key
       - jenkins-docker-certs:/certs/client:ro
   when: "jenkins_master is defined and jenkins_master == True"
+
+- name: Read the generated public key from the remote host
+  slurp:
+    src: /opt/jenkins/jenkins_agent_key.pub
+  register: ssh_public_key 
+  when: "jenkins_master is defined and jenkins_master == True"
+
+- name: Jenkins public key as fact
+  set_fact:
+    jenkins_pub_key: "{{ ssh_public_key | b64decode }}"
+  when: "jenkins_master is defined and jenkins_master == True"
+

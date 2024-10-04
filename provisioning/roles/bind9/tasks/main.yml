@@ -8,10 +8,11 @@
 - name: Copy zone to remote server
   ansible.builtin.template:
     src: db.j2
-    dest: /etc/bind/db.homelab
+    dest: "/etc/bind/db.{{ item.name }}"
     owner: root
     group: root 
     mode: '0644'
+  with_items: "{{ bind9_zones }}"
   notify:
     - restart bind9
 

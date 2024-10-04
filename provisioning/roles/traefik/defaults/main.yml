@@ -1,0 +1,6 @@
+---
+# defaults file for traefik
+traefik_image: traefik
+traefik_version: v3.1
+traefik_path: "/opt/traefik"
+traefik_user: "traefik"

@@ -1,21 +1,30 @@
-variable "filename" {
+variable "vm_name" {
   type = string
 }
 
-variable "checksum" {
+variable "vm_ip_addr" {
   type = string
 }
 
-variable "checksum_alg" {
-  type    = string
-  default = "sha512"
+variable "vm_gateway" {
+  type = string
+  default = "192.168.1.1"
 }
 
-variable "file_url" {
+variable "vm_user" {
   type = string
 }
 
-variable "content_type" {
-  type    = string
-  default = "iso"
+variable "vm_disk_size" {
+  type = number
+  default = 8
+}
+
+variable "ssh_public_key" {
+  type = string
+}
+
+variable "vm_memory" {
+  type = number
+  default = 2048
 }

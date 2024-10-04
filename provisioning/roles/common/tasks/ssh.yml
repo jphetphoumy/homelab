@@ -6,6 +6,5 @@
     key: "{{ lookup('file', item) }}"
   with_fileglob:
     - ~/.ssh/id_ed25519.pub
-  become: true
-  become_method: su
-  become_user: "{{ common_admin_user }}"
+    #become: true
+    #become_user: "{{ common_admin_user }}"

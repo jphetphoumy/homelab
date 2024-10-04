@@ -35,3 +35,8 @@ variable "tags" {
 variable "vm_id" {
     type = string
 }
+
+variable "lxc_memory" {
+  type = number
+  default = 2048
+}

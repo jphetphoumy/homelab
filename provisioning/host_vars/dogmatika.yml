@@ -1,4 +1,4 @@
 ---
 ansible_host: 192.168.1.221
 jenkins_master: false
-jenkins_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICNV9Ew6IaAmQ5oiN3gUBAM6qXwKiGBvj/lwt81WJvot jphetphoumy@nixos"
+jenkins_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDrGDYH/iiv8FFBhSnzQQsufuPxJYWvKwWQMceP4zC/6"

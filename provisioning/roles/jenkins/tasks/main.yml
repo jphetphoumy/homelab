@@ -7,5 +7,6 @@
     create_home: true
     shell: /bin/bash
     group: docker
+
 - name: Manage jenkins docker container
   ansible.builtin.include_tasks: docker.yml

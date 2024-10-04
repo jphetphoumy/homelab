@@ -1,0 +1,49 @@
+---
+# tasks file for traefik
+- name: Create traefik user
+  ansible.builtin.user:
+    name: "{{ traefik_user }}"
+    comment: traefik user 
+    create_home: false
+    shell: /usr/sbin/nologin
+
+- name: Create traefik directory if it does not exists
+  ansible.builtin.file:
+    path: "{{ traefik_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0755'
+
+- name: Copy traefik configuration
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_path }}/traefik.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0644'
+
+- name: Copy Custom configuration
+  ansible.builtin.template:
+    src: reverse_proxy.yml.j2
+    dest: "{{ traefik_path }}/reverse_proxy.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0644'
+  register: traefik_config
+
+- name: Create traefik docker image
+  community.docker.docker_container:
+    name: traefik
+    restart_policy: "on-failure"
+    image: "{{ traefik_image }}:{{ traefik_version }}"
+    state: started
+    command: "--api.insecure=true --providers.docker"
+    volumes:
+      - "{{ traefik_path }}/traefik.yml:/etc/traefik/traefik.yml"
+      - "{{ traefik_path }}/reverse_proxy.yml:/rules/reverse_proxy.yml"
+    ports:
+      - "8080:8080"
+      - "80:80"
+  changed_when: traefik_config.changed

@@ -1,0 +1,19 @@
+http:
+  routers:
+    {% for router in traefik_configuration.routers %}
+    {%- filter indent(width=4) %}
+    {{ router.name }}-router:
+      rule: {{ router.rule }} 
+      service: "{{ router.name }}-service"
+      entryPoints: {{ router.entrypoints }}
+    {%- endfilter %}
+    {% endfor %}
+  services:
+    {% for service in traefik_configuration.services %}
+    {%- filter indent(width=4) %}
+    {{ service.name }}-service:
+      loadBalancer:
+        servers:
+            - url: {{ service.url }} 
+    {%- endfilter %}
+    {% endfor %}

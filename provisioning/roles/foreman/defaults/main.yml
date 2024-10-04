@@ -1,0 +1,4 @@
+---
+# defaults file for foreman
+foreman_puppet_version: "7"
+foreman_version: "3.12"

@@ -1,0 +1,8 @@
+---
+# defaults file for gitea
+gitea_user: "gitea"
+gitea_folder: "/opt/gitea"
+gitea_config_dir: "{{ gitea_folder }}/config"
+gitea_data_dir: "{{ gitea_folder }}/data"
+gitea_docker_version: "1.22.2"
+gitea_app_name: "Gitea: Personal Git server"

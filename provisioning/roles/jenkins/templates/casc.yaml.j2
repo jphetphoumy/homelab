@@ -27,7 +27,7 @@ credentials:
               description: "SSH Key for agent"
               privateKeySource:
                 directEntry:
-                  privateKey: "${readfile:/home/jenkins/.ssh/id_rsa}"
+                  privateKey: "${readfile:/home/jenkins/.ssh/jenkins_agent_key}"
 unclassified:
   location:
     url: http://{{ jenkins_url }}:8080

@@ -18,6 +18,8 @@ raspberry:
 lxc_container:
   hosts:
     runick:
+    foreman:
+      ansible_host: 192.168.1.150
 jenkins:
   hosts:
     runick:
@@ -25,9 +27,20 @@ jenkins:
 dns:
   hosts:
     orcust:
+git_server:
+  hosts:
+    sky-striker:
+      ansible_host: 192.168.1.225
+traefik:
+  hosts:
+    tearlaments:
+      ansible_host: 192.168.1.230
 all:
   children:
     hypervisor:
     lxc_container:
     jenkins:
     raspberry:
+    dns:
+    git_server:
+    traefik:

@@ -1,6 +1,7 @@
 ---
 - name: Update and manage common packages
   become: true
+  gather_facts: false
   hosts: jenkins
   roles:
     - common

@@ -1,0 +1,9 @@
+- name: Manage Gitea
+  become: true
+  hosts: sky-striker
+  vars:
+    gitea_docker_version: "1.22.2"
+  roles:
+    - common
+    - docker
+    - gitea

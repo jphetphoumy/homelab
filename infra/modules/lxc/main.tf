@@ -52,7 +52,7 @@ resource "proxmox_virtual_environment_container" "lxc" {
   }
 
   memory {
-    dedicated = 2048
+    dedicated = var.lxc_memory
   }
 
   features {

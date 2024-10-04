@@ -1,4 +1,4 @@
-module "runick" {
+module "orcust" {
   source = "../../modules/lxc"
 
   checksum = "39f6d06e082d6a418438483da4f76092ebd0370a91bad30b82ab6d0f442234d63fe27a15569895e34d6d1e5ca50319f62637f7fb96b98dbde4f6103cf05bff6d"

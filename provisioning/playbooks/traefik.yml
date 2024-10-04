@@ -1,0 +1,25 @@
+- name: Manage Reverse proxy
+  become: true
+  hosts: traefik 
+  vars:
+    traefik_configuration:
+      routers: 
+        - name: jenkins
+          service: jenkins
+          rule: "Host(`jenkins.hackandpwned.homelab`)"
+          entrypoints:
+            - web
+        - name: gitea
+          service: gitea
+          rule: "Host(`gitea.hackandpwned.homelab`)"
+          entrypoints:
+            - web
+      services:
+        - name: jenkins
+          url: "http://192.168.1.220:8080"
+        - name: gitea 
+          url: "http://192.168.1.225:3000"
+  roles:
+    - common
+    - docker
+    - traefik

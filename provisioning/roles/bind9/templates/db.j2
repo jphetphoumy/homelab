@@ -2,8 +2,8 @@
 ; BIND data file for local loopback interface
 ;
 $TTL    604800
-$ORIGIN hackandpwned.homelab.
-@       IN      SOA     ns1.hackandpwned.homelab. root.hackandpwned.homelab. (
+$ORIGIN {{ item.name }}.
+@       IN      SOA     ns1.{{ item.name }}. root.{{ item.name }}. (
                               1         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
@@ -12,5 +12,6 @@ $ORIGIN hackandpwned.homelab.
 ;
         IN      NS      ns1.hackandpwned.homelab.
 ns1     IN      A       192.168.1.200
-jenkins IN      A       192.168.1.220
 proxmox IN      A       192.168.1.212
+traefik IN      A       192.168.1.230
+*       IN      A       192.168.1.230

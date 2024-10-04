@@ -1,0 +1,4 @@
+- name: Install Foreman
+  hosts: foreman
+  roles:
+    - foreman

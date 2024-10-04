@@ -1,4 +1,4 @@
-{% for zone in bind9_zone %}
+{% for zone in bind9_zones %}
 zone "{{ zone.name}}" {
         type master;
         file "/etc/bind/{{ zone.file }}";

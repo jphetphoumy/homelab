@@ -31,5 +31,5 @@
       - "5443:5443/udp"
   roles:
     - docker
-    - adguard-home
-    #- bind9
+    #- adguard-home
+    - bind9

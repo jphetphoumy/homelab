@@ -1,0 +1,15 @@
+---
+# tasks file for foreman
+- name: Update cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install ca-certificates
+  ansible.builtin.apt:
+    name: ca-certificates
+
+- name: Install puppet
+  include_tasks: puppet.yml
+
+- name: Install foreman
+  include_tasks: foreman.yml
