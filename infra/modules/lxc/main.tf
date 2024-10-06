@@ -58,10 +58,23 @@ resource "proxmox_virtual_environment_container" "lxc" {
   features {
     nesting = true
   }
+
+  connection {
+    type = "ssh"
+    user = "root"
+    private_key = file(var.ssh_private_key)
+    host = trim(self.initialization[0].ip_config[0].ipv4[0].address, "/24")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "whoami"
+    ]
+  }
 }
 
 data "tls_public_key" "private_key_openssh" {
-  private_key_openssh = file("~/.ssh/id_ed25519")
+  private_key_openssh = file(var.ssh_private_key)
 }
 
 resource "random_password" "lxc_password" {

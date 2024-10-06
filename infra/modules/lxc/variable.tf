@@ -40,3 +40,8 @@ variable "lxc_memory" {
   type = number
   default = 2048
 }
+
+variable "ssh_private_key" {
+  type = string
+  default = "~/.ssh/id_ed25519"
+}

@@ -11,4 +11,5 @@ module "orcust" {
   ip_address = "192.168.1.200/24"
 
   tags = ["linux", "dns", "bind9"]
+  ssh_private_key = var.ssh_private_key
 }
