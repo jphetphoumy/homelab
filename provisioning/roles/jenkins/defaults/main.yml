@@ -10,3 +10,4 @@ jenkins_plugins:
   - matrix-auth
   - ssh-slaves
   - gitea
+  - ansible
