@@ -16,6 +16,19 @@ jenkins:
           name: "authenticated"
           permissions:
           - "Overall/Read"
+  nodes:
+  - permanent:
+      labelString: "iac"
+      launcher:
+        ssh:
+          credentialsId: "jenkins"
+          host: "192.168.1.221"
+          port: 4444
+          sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+      mode: EXCLUSIVE
+      name: "tofu"
+      remoteFS: "/home/jenkins"
+      retentionStrategy: "always"
 credentials:
   system:
     domainCredentials:

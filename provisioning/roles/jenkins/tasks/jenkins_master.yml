@@ -57,6 +57,7 @@
   community.crypto.openssh_keypair:
     path: /opt/jenkins/jenkins_agent_key
     type: ed25519
+    owner: 1000
   register: ssh_private_key
   when: "jenkins_master is defined and jenkins_master == True"
 
@@ -78,7 +79,7 @@
     volumes:
       - jenkins-data:/var/jenkins_home
       - /opt/jenkins/casc.yaml:/var/jenkins_home/casc.yaml
-      - /opt/jenkins/jenkins_agent_key:/home/.ssh/jenkins_agent_key
+      - /opt/jenkins/jenkins_agent_key:/home/jenkins/.ssh/jenkins_agent_key
       - jenkins-docker-certs:/certs/client:ro
   when: "jenkins_master is defined and jenkins_master == True"
 
@@ -88,8 +89,12 @@
   register: ssh_public_key 
   when: "jenkins_master is defined and jenkins_master == True"
 
+- name: Debug
+  debug:
+    msg: "{{ ssh_public_key }}"
+
 - name: Jenkins public key as fact
   set_fact:
-    jenkins_pub_key: "{{ ssh_public_key | b64decode }}"
+    jenkins_pub_key: "{{ ssh_public_key.content | b64decode }}"
   when: "jenkins_master is defined and jenkins_master == True"
 

@@ -2,3 +2,11 @@
 # defaults file for jenkins
 jenkins_enable_wizard: false
 jenkins_version: "2.462.3"
+jenkins_plugins:
+  - blueocean 
+  - docker-workflow
+  - json-path-api
+  - configuration-as-code
+  - matrix-auth
+  - ssh-slaves
+  - gitea
