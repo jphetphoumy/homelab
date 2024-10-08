@@ -1,10 +1,11 @@
 FROM jenkins/ssh-agent:alpine-jdk17
 
-RUN apk add --no-cache curl && \
+RUN apk add --no-cache curl pipx && \
     curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
     chmod +x install-opentofu.sh && \
     ./install-opentofu.sh --install-method apk && \
     rm -f install-opentofu.sh && \ 
     curl https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip -o packer.zip && \
     unzip packer.zip && \
-    mv packer /usr/bin/packer
+    mv packer /usr/bin/packer && \
+    pipx install ansible-core
