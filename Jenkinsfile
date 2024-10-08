@@ -15,38 +15,89 @@ pipeline {
             }
         }
         stage('Tofu init') {
-            steps {
-                dir('infra/production/dns') {
-                  sh 'tofu init'
+            parallel {
+                stage('Initialize DNS') {
+                    steps {
+                        dir('infra/production/dns') {
+                          sh 'tofu init'
+                        }
+                    }
+                }
+                stage('Initialize Traefik') {
+                    steps {
+                        dir('infra/production/traefik') {
+                          sh 'tofu init'
+                        }
+                    }
                 }
             }
         }
         stage('Tofu plan') {
-            steps {
-                dir('infra/production/dns') {
-                    sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH" -out tofu.plan'
+            parallel {
+                stage('Plan DNS') {
+                    steps {
+                        dir('infra/production/dns') {
+                            sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH" -out tofu.plan'
+                        }
+                    }
+                }
+                stage('Plan traefik') {
+                    steps {
+                        dir('infra/production/traefik') {
+                            sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH" -out tofu.plan'
+                        }
+                    }
                 }
             }
         }
 
         stage('Tofu deploy') {
-            when {
-              expression { ACTION ==~ "deploy"}
-            }
-            steps {
-                dir('infra/production/dns') {
-                  sh 'tofu apply tofu.plan' 
+            parallel {
+                stage('Deploy DNS') {
+                    when {
+                        expression { ACTION ==~ "deploy"}
+                    }
+                    steps {
+                        dir('infra/production/dns') {
+                            sh 'tofu apply tofu.plan' 
+                        }
+                    }
                 }
+                stage('Deploy traefik') {
+                    when {
+                        expression { ACTION ==~ "deploy"}
+                    }
+                    steps {
+                        dir('infra/production/traefik') {
+                            sh 'tofu apply tofu.plan' 
+                        }
+                    }
+                }
+
             }
         }
 
         stage('Tofu destroy') {
-            when {
-              expression { ACTION ==~ "destroy"}
-            }
-            steps {
-                dir('infra/production/dns') {
-                sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH"' 
+            parallel {
+                stage('Destroy DNS') {
+                    when {
+                        expression { ACTION ==~ "destroy"}
+                    }
+                    steps {
+                        dir('infra/production/dns') {
+                            sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH"' 
+                        }
+                    }
+                }
+                stage('Destroy traefik') {
+                    when {
+                        expression { ACTION ==~ "destroy"}
+                    }
+                    steps {
+                        dir('infra/production/traefik') {
+                            sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH"' 
+                        }
+                    }
                 }
             }
         }
@@ -58,6 +109,7 @@ pipeline {
           steps {
             dir('provisioning/') {
               ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
+              ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'traefik.yml'
             }
           }
         }
