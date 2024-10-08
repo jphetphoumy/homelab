@@ -1,20 +1,18 @@
 http:
   routers:
-    {% filter indent(width=2) %}
-    {% for router in traefik_configuration.routers %}
-    {{ router.name }}-router:
-      {% filter indent(width=2) %}
-      rule: {{ router.rule }} 
+  {% for router in traefik_configuration.routers %}
+  {{ router.name }}-router:
+      rule: "{{ router.rule }}"
       service: "{{ router.name }}-service"
-      entryPoints: 
-        {{ router.entrypoints | to_nice_yaml(indent=2) }}
-      {% endfilter %}
-    {% endfor %}
-    {% endfilter %}
+      entryPoints:
+        {{ router.entrypoints | to_nice_yaml(indent=4) }}
+  {% endfor %}
+
   services:
   {% for service in traefik_configuration.services %}
-    {{ service.name }}-service:
+  {{ service.name }}-service:
       loadBalancer:
-      servers:
-          - url: {{ service.url }} 
+        servers:
+          - url: "{{ service.url }}"
   {% endfor %}
+
