@@ -21,9 +21,23 @@ pipeline {
         }
 
         stage('Tofu deploy') {
+            when {
+              expression { ACTION ==~ "deploy"}
+            }
             steps {
                 dir('infra/production/dns') {
                   sh 'tofu apply tofu.plan' 
+                }
+            }
+        }
+
+        stage('Tofu destroy') {
+            when {
+              expression { ACTION ==~ "destroy"}
+            }
+            steps {
+                dir('infra/production/dns') {
+                  sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key=/home/jenkins/.ssh/id_ed25519' 
                 }
             }
         }
