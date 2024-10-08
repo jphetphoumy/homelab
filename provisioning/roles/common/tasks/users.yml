@@ -14,9 +14,3 @@
     user: "{{ common_admin_user }}"
     runas: root
     commands: ALL
-
-- name: Add ssh key to authorized key for user admin
-  ansible.posix.authorized_key:
-    user: "{{ common_admin_user }}"
-    state: present
-    key: "{{ lookup('file', '/home/jphetphoumy/.ssh/id_ed25519.pub') }}"

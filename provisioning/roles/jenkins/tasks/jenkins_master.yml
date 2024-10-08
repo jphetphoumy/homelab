@@ -45,6 +45,7 @@
     group: root
     mode: "0644"
   when: "jenkins_master is defined and jenkins_master == True"
+  register: casc_template
 
 - name: Build custom image
   community.docker.docker_image_build:
@@ -52,6 +53,8 @@
     path: /opt/jenkins
     dockerfile: Dockerfile
   when: "jenkins_master is defined and jenkins_master == True"
+  changed_when: casc_template.changed
+  register: docker_jenkins_blueocean
 
 - name: Generate jenkins ssh key
   community.crypto.openssh_keypair:
@@ -82,6 +85,7 @@
       - /opt/jenkins/jenkins_agent_key:/home/jenkins/.ssh/jenkins_agent_key
       - jenkins-docker-certs:/certs/client:ro
   when: "jenkins_master is defined and jenkins_master == True"
+  changed_when: docker_jenkins_blueocean.changed
 
 - name: Read the generated public key from the remote host
   slurp:

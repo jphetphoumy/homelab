@@ -4,7 +4,7 @@ jenkins:
       allowsSignup: false
       users:
       - id: admin
-        password: admin
+        password: {{ jenkins_admin_password }}
   authorizationStrategy:
     globalMatrix:
       entries:
@@ -29,7 +29,8 @@ jenkins:
       name: "tofu"
       remoteFS: "/home/jenkins"
       retentionStrategy: "always"
-  tool:
+  numExecutors: 0
+tool:
     ansible:
       installations:
       - name: "ansible-playbook"
@@ -55,6 +56,11 @@ credentials:
               privateKeySource:
                 directEntry:
                   privateKey: "${readfile:/home/jenkins/.ssh/jenkins_agent_key}"
+          - usernamePassword:
+              description: "Proxmox password"
+              id: "proxmox-password-id"
+              password: "${base64:{{jenkins_proxmox_password}}}"
+              scope: GLOBAL
 unclassified:
   location:
     url: http://{{ jenkins_url }}:8080
