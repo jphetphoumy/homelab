@@ -11,6 +11,7 @@ module "runick" {
   ip_address = "192.168.1.220/24"
 
   tags = ["linux", "cicd", "jenkins-master"]
+  additional_ssh_keys = var.additional_ssh_keys
 }
 
 module "dogmatika" {
@@ -26,4 +27,5 @@ module "dogmatika" {
   ip_address = "192.168.1.221/24"
 
   tags = ["linux", "cicd", "jenkins-agent"]
+  additional_ssh_keys = var.additional_ssh_keys
 }

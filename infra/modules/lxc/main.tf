@@ -34,9 +34,9 @@ resource "proxmox_virtual_environment_container" "lxc" {
 
     user_account {
       password = random_password.lxc_password.result
-      keys = [
+      keys = concat([
         trimspace(data.tls_public_key.private_key_openssh.public_key_openssh)
-      ]
+      ], var.additional_ssh_keys)
     }
   }
 

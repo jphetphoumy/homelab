@@ -45,3 +45,8 @@ variable "ssh_private_key" {
   type = string
   default = "~/.ssh/id_ed25519"
 }
+
+variable "additional_ssh_keys" {
+  type = list(string)
+  default = []
+}

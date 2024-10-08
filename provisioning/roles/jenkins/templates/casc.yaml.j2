@@ -29,6 +29,20 @@ jenkins:
       name: "tofu"
       remoteFS: "/home/jenkins"
       retentionStrategy: "always"
+  tool:
+    ansible:
+      installations:
+      - name: "ansible-playbook"
+        properties:
+        - installSource:
+            installers:
+            - command:
+                command: |-
+                  pipx install --include-deps ansible
+                  pipx ensurepath
+                  source ~/.bashrc
+                label: "iac"
+                toolHome: "/home/jenkins/.local/bin"
 credentials:
   system:
     domainCredentials:

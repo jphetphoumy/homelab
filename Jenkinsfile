@@ -48,7 +48,7 @@ pipeline {
           }
           steps {
             dir('provisioning/') {
-              ansiblePlaybook credentialsId: 'ansible-ssh-root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
+              ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: 'ansible_user: root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
             }
           }
         }
