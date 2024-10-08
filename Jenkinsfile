@@ -41,5 +41,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Configure servers') {
+          steps {
+            dir('provisioning/') {
+              ansiblePlaybook credentialsId: 'ansible-ssh-root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
+            }
+          }
+        }
     }
 }
