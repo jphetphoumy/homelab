@@ -1,10 +1,12 @@
 pipeline {
-    agent any
+    agent { label 'iac' } 
 
     stages {
-        stage('Hello') {
+        stage('Tofu init') {
             steps {
-                echo 'Hello World'
+                dir('infra/production/dns') {
+                  sh 'tofu init'
+                }
             }
         }
     }
