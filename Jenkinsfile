@@ -16,7 +16,7 @@ pipeline {
             steps {
                 dir('infra/production/dns') {
                   withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-root', keyFileVariable: 'SSH_KEY_FILE')]) {
-                    sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_FILE -out tofu.plan'
+                    sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_FILE" -out tofu.plan'
                   }
                 }
             }
