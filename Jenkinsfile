@@ -3,8 +3,17 @@ pipeline {
 
     environment {
       PROXMOX_PASSWORD = credentials('proxmox-password-id')
+      SSH_KEY_PATH = "/home/jenkins/.ssh/id_ed25519"
     }
     stages {
+        stage('Prepare SSH Key') {
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-root', keyFileVariable: 'SSH_KEY_FILE')]) {
+                    sh 'cp "$SSH_KEY_FILE" $SSH_KEY_PATH'
+                    sh 'chmod 600 $SSH_KEY_PATH'
+                }
+            }
+        }
         stage('Tofu init') {
             steps {
                 dir('infra/production/dns') {
@@ -15,9 +24,7 @@ pipeline {
         stage('Tofu plan') {
             steps {
                 dir('infra/production/dns') {
-                  withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-root', keyFileVariable: 'SSH_KEY_FILE')]) {
-                    sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_FILE" -out tofu.plan'
-                  }
+                    sh 'tofu plan -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH" -out tofu.plan'
                 }
             }
         }
@@ -39,9 +46,7 @@ pipeline {
             }
             steps {
                 dir('infra/production/dns') {
-                  withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-root', keyFileVariable: 'SSH_KEY_FILE')]) {
-                    sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_FILE"' 
-                  }
+                sh 'tofu destroy -auto-approve -var proxmox_password=${PROXMOX_PASSWORD_PSW} -var ssh_private_key="$SSH_KEY_PATH"' 
                 }
             }
         }
