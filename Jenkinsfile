@@ -23,7 +23,7 @@ pipeline {
         stage('Tofu deploy') {
             steps {
                 dir('infra/production/dns') {
-                  sh 'tofu apply tofu.plan -auto-approve' 
+                  sh 'tofu apply tofu.plan' 
                 }
             }
         }
