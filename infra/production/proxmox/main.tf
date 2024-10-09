@@ -25,3 +25,11 @@ resource "proxmox_virtual_environment_download_file" "lxc_template" {
   checksum           = each.value.checksum
   checksum_algorithm = each.value.checksum_alg
 }
+
+data "proxmox_virtual_environment_datastores" "proxmox" {
+  node_name = "proxmox"
+}
+
+output "test" {
+  value = data.proxmox_virtual_environment_datastores.proxmox
+}

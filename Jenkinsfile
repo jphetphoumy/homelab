@@ -103,13 +103,26 @@ pipeline {
         }
 
         stage('Configure servers') {
-          when {
-            expression { ACTION ==~ "deploy"}
-          }
-          steps {
-            dir('provisioning/') {
-              ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
-              ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'traefik.yml'
+          parallel {
+            stage('Configure DNS') {
+                when {
+                    expression { ACTION ==~ "deploy"}
+                }
+                steps {
+                    dir('provisioning/') {
+                        ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'dns.yml'
+                    }
+                }
+            }
+            stage('Configure traefik') {
+                when {
+                    expression { ACTION ==~ "deploy"}
+                }
+                steps {
+                    dir('provisioning/') {
+                        ansiblePlaybook credentialsId: 'ansible-ssh-root', extras: '-u root', installation: 'ansible-playbook', inventory: 'inventory.yml', playbook: 'traefik.yml'
+                    }
+                }
             }
           }
         }
