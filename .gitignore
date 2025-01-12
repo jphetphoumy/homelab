@@ -1,0 +1,4 @@
+opentofu/**/*.auto.tfvars
+opentofu/**/.terraform
+opentofu/**/tofu.plan
+opentofu/**/terraform.tfstate*
