@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Jérémy Phetphoumy
+  description: Simple Samba role
+
+  license: Apache-2.0
+
+  min_ansible_version: "2.17"
+
+  galaxy_tags: []
+
+dependencies: []

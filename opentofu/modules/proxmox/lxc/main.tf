@@ -4,17 +4,19 @@ resource "proxmox_virtual_environment_container" "this" {
   node_name = var.node_name
   vm_id     = var.vm_id
 
+  tags = var.tags
+
   disk {
     datastore_id = var.datastore_id
-    size = var.tiers[var.tier].disk
+    size         = var.disk_size
   }
 
   memory {
-    dedicated = var.tiers[var.tier].memory
+    dedicated = var.memory
   }
 
   cpu {
-    cores = var.tiers[var.tier].cpu
+    cores = var.cpu
   }
 
   initialization {
@@ -28,8 +30,8 @@ resource "proxmox_virtual_environment_container" "this" {
     }
 
     user_account {
-      keys = var.ssh_public_keys
-      password = "rootme"
+      keys     = var.ssh_public_keys
+      password = random_password.this.result
     }
   }
 
@@ -46,4 +48,18 @@ resource "proxmox_virtual_environment_container" "this" {
     nesting = true
   }
 
+  dynamic "mount_point" {
+    for_each = var.mount_points
+    content {
+      volume = mount_point.value["volume"]
+      path   = mount_point.value["path"]
+    }
+  }
+
+}
+
+resource "random_password" "this" {
+  length           = 16
+  override_special = "_%@"
+  special          = true
 }

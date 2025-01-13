@@ -1,0 +1,29 @@
+---
+# tasks file for samba
+- name: Install samba
+  ansible.builtin.apt:
+    name: samba
+    update_cache: true
+
+- name: Configure samba
+  ansible.builtin.template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Add linux user
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+  with_items: "{{ samba_users }}"
+
+- name: Create smb password for user
+  ansible.builtin.shell: "(echo {{ item.password }};echo {{ item.password }}) | smbpasswd -s -a {{ item.name }}"
+  with_items: "{{ samba_users }}"
+  no_log: True
+
+- name: Check samba configuration
+  ansible.builtin.command: "testparm -s"
+  notify:
+    - Reload samba 

@@ -1,0 +1,5 @@
+proxmox_users:
+  - name: ansible
+  - name: monitoring
+  - name: opentofu
+  - name: packer

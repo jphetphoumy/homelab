@@ -1,0 +1,7 @@
+---
+- name: Manage proxmox server
+  hosts: proxmox_nodes
+  tasks:
+    - name: Update the server
+      ansible.builtin.apt:
+        update_cache: true

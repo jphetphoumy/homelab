@@ -1,0 +1,14 @@
+---
+- name: Manage samba server
+  hosts: group_samba
+  gather_facts: false 
+  roles:
+    - samba
+  tasks:
+    - name: Create folder
+      ansible.builtin.file:
+        state: directory
+        path: /srv/backup
+        owner: jphetphoumy
+        group: jphetphoumy
+        mode: '0755'

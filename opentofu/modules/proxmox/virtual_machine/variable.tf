@@ -1,15 +1,14 @@
-variable "mount_points" {
-  type = list(object({
-    volume = string
-    path   = string
-  }))
+variable "username" {
+  type = string
+  default = "root"
 }
+
 variable "tags" {
   type    = list(string)
   default = []
 }
 
-variable "template_file_id" {
+variable "file_id" {
   type = string
 }
 
