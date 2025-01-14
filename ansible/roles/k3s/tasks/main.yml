@@ -1,0 +1,11 @@
+---
+# tasks file for k3s
+- name: Update
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Download k3s
+  ansible.builtin.get_url:
+    url: "https://get.k3s.io"
+    dest: /tmp/install.sh
+    mode: '0755'
