@@ -1,11 +1,19 @@
 ---
 # tasks file for k3s
-- name: Update
-  ansible.builtin.apt:
-    update_cache: true
 
-- name: Download k3s
-  ansible.builtin.get_url:
-    url: "https://get.k3s.io"
-    dest: /tmp/install.sh
-    mode: '0755'
+- name: Install K3s binary
+  ansible.builtin.include_tasks: install.yml
+
+- name: Configure server
+  ansible.builtin.include_tasks: server.yml
+  when: "'group_k3s_server' in group_names"
+ 
+- name: Configure agent
+  ansible.builtin.include_tasks: agent.yml
+  when: "'group_k3s_node' in group_names"
+
+- name: Debug
+  ansible.builtin.debug:
+    msg: "{{ hostvars[groups['group_k3s_server'][0]].ansible_eth0.ipv4.address }}"
+  tags:
+    - debug
