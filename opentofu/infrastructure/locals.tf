@@ -3,23 +3,9 @@ locals {
     debian12 = "local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
   }
 
-  virtual_machines = {
-    "k3s-server" = {
-      vm_id        = 601
-      datastore_id = "data"
-      ipv4_address = "192.168.1.20/24"
-      ipv4_gateway = "192.168.1.1"
-      tags         = ["kubernetes", "linux", "docker"]
-      cpu          = 1
-      memory       = 2048 
-      disk_size    = 50
-      username     = "jphetphoumy"
-    }
-  }
-
   containers = {
     samba = {
-      vm_id        = 501
+      vm_id        = 505
       datastore_id = "data"
       ipv4_address = "192.168.1.5/24"
       ipv4_gateway = "192.168.1.1"
