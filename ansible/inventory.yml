@@ -1,23 +1,23 @@
 ---
 raspberry:
   vars:
-    ansible_python_interpreter: "/usr/bin/python3.11"
+    ansible_python_interpreter: /usr/bin/python3.11
   hosts:
     rpi-node1:
       ansible_host: 192.168.1.21
-      ansible_user: "pi"
+      ansible_user: pi
     rpi-node2:
       ansible_host: 192.168.1.22
-      ansible_user: "pi"
+      ansible_user: pi
     rpi-node3:
       ansible_host: 192.168.1.23
-      ansible_user: "pi"
+      ansible_user: pi
     rpi-node4:
       ansible_host: 192.168.1.24
-      ansible_user: "pi"
+      ansible_user: pi
     rpi-node5:
       ansible_host: 192.168.1.25
-      ansible_user: "pi"
+      ansible_user: pi
 all:
   children:
     raspberry:

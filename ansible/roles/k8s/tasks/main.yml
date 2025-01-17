@@ -1,0 +1,28 @@
+---
+# tasks file for k8s
+- name: Install kubeadm
+  ansible.builtin.include_tasks: kubeadm.yml
+
+- name: Init cluster
+  ansible.builtin.include_tasks: init-cluster.yml
+
+- name: Install cilium cli
+  ansible.builtin.include_tasks: cilium.yml
+  when: "'group_k3s_server' in group_names"
+  tags:
+    - k8s_cilium
+
+- name: Run cilicium install
+  ansible.builtin.command: "cilium install --version {{ k8s_cilium_version | regex_replace('^v', '') }}" 
+  environment:
+    KUBECONFIG: "/etc/kubernetes/admin.conf"
+  when: "'group_k3s_server' in group_names"
+  tags:
+    - k8s_cilium
+
+- name: Join cluster
+  ansible.builtin.command: "{{ hostvars[groups['group_k3s_server'][0]].k8s_join_command }}"
+  when: "'group_k3s_node' in group_names"
+  tags:
+    - k8s_node_join
+

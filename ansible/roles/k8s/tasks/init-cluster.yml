@@ -1,0 +1,51 @@
+---
+- name: Install containerd
+  ansible.builtin.apt:
+    name: containerd
+    state: present
+
+- name: Reset config
+  ansible.builtin.shell: "containerd config default > /etc/containerd/config.toml"
+
+- name: Ensure the SystemdCgroup option is set to true in containerd config
+  lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: '^(\s*)SystemdCgroup\s*='
+    line: 'SystemdCgroup = true'
+    insertafter: '^(\s*)\[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options\]'
+
+- name: Restart containerd
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+
+- name: Enable ip_forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Disable swap
+  ansible.builtin.command: "swapoff -a"
+
+- name: Initialize cluster
+  ansible.builtin.command: "kubeadm init --apiserver-advertise-address={{ hostvars[groups['group_k3s_server'][0]].ansible_eth0.ipv4.address }} --pod-network-cidr=172.16.0.0/16"
+  when: "'group_k3s_server' in group_names"
+
+- name: Get join command
+  become: true
+  ansible.builtin.command: "kubeadm token create --print-join-command"
+  register: k8s_join_command
+  when: "'group_k3s_server' in group_names"
+  tags:
+    - join
+
+- name: Set join command fact
+  ansible.builtin.set_fact:
+    k8s_join_command: "{{ k8s_join_command.stdout }}"
+  when: "'group_k3s_server' in group_names"
+  tags:
+    - join
+

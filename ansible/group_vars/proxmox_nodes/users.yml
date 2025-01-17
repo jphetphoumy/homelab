@@ -1,3 +1,4 @@
+---
 proxmox_users:
   - name: ansible
   - name: monitoring

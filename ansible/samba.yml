@@ -1,7 +1,7 @@
 ---
 - name: Manage samba server
   hosts: group_samba
-  gather_facts: false 
+  gather_facts: false
   roles:
     - samba
   tasks:
@@ -11,4 +11,4 @@
         path: /srv/backup
         owner: jphetphoumy
         group: jphetphoumy
-        mode: '0755'
+        mode: "0755"

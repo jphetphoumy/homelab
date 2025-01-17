@@ -1,0 +1,36 @@
+---
+- name: Cilium cli
+  block:
+  - name: Download Cilium CLI tarball and checksum
+    ansible.builtin.get_url:
+      url: "https://github.com/cilium/cilium-cli/releases/download/{{ k8s_cilium_cli_version }}/cilium-linux-{{ k8s_cilium_arch }}.tar.gz"
+      dest: "/tmp/cilium-linux-{{ k8s_cilium_arch }}.tar.gz"
+
+  - name: Download Cilium CLI checksum file
+    ansible.builtin.get_url:
+      url: "https://github.com/cilium/cilium-cli/releases/download/{{ k8s_cilium_cli_version }}/cilium-linux-{{ k8s_cilium_arch }}.tar.gz.sha256sum"
+      dest: "/tmp/cilium-linux-{{ k8s_cilium_arch }}.tar.gz.sha256sum"
+
+  - name: Verify checksum
+    ansible.builtin.command:
+      cmd: "sha256sum --check /tmp/cilium-linux-{{ k8s_cilium_arch }}.tar.gz.sha256sum"
+    args:
+      chdir: "/tmp"
+    register: checksum_verification
+    failed_when: checksum_verification.rc != 0
+
+  - name: Extract Cilium CLI binary
+    ansible.builtin.unarchive:
+      src: "/tmp/cilium-linux-{{ k8s_cilium_arch }}.tar.gz"
+      dest: "/usr/local/bin"
+      remote_src: yes
+
+  - name: Clean up temporary files
+    ansible.builtin.file:
+      path: "/tmp/cilium-linux-{{ k8s_cilium_arch }}.tar.gz{{ '.sha256sum' if item == '.sha256sum' else '' }}"
+      state: absent
+    with_items:
+      - ""
+      - ".sha256sum"
+  tags:
+    - k8s_cilium

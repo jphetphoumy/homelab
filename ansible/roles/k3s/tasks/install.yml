@@ -5,6 +5,6 @@
 
 - name: Download k3s
   ansible.builtin.get_url:
-    url: "https://github.com/k3s-io/k3s/releases/download/v1.26.5+k3s1/k3s"
-    dest: /usr/local/bin/k3s 
-    mode: '0755'
+    url: https://github.com/k3s-io/k3s/releases/download/v1.26.5+k3s1/k3s
+    dest: /usr/local/bin/k3s
+    mode: "0755"

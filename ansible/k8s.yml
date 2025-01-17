@@ -1,0 +1,6 @@
+---
+- name: Manage k8s cluster
+  gather_facts: true
+  hosts: group_k3s_server,group_k3s_node
+  roles:
+    - k8s

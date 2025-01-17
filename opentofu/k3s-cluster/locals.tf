@@ -10,8 +10,8 @@ locals {
       ipv4_address = "192.168.1.20/24"
       ipv4_gateway = "192.168.1.1"
       tags         = ["kubernetes", "linux", "docker", "k3s_server"]
-      cpu          = 1
-      memory       = 2048 
+      cpu          = 2
+      memory       = 4096 
       disk_size    = 50
       username     = "jphetphoumy"
     }

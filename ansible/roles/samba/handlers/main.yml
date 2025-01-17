@@ -1,8 +1,9 @@
 ---
 # handlers file for samba
 - name: Reload samba
-  ansible.builtin.command: "smbcontrol smbd reload-config"
-- name: Restart samba 
-  ansible.builtin.service: 
+  ansible.builtin.command: smbcontrol smbd reload-config
+  changed_when: false
+- name: Restart samba
+  ansible.builtin.service:
     name: smbd
     restarted: true

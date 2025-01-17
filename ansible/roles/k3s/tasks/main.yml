@@ -7,7 +7,7 @@
 - name: Configure server
   ansible.builtin.include_tasks: server.yml
   when: "'group_k3s_server' in group_names"
- 
+
 - name: Configure agent
   ansible.builtin.include_tasks: agent.yml
   when: "'group_k3s_node' in group_names"
