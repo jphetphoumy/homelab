@@ -1,0 +1,5 @@
+---
+- name: Install samba
+  ansible.builtin.apt:
+    name: samba
+    state: present

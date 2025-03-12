@@ -1,0 +1,6 @@
+---
+# handlers file for samba
+- name: Reload Samba
+  ansible.builtin.systemd_service:
+    name: smbd
+    state: reloaded

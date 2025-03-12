@@ -1,0 +1,37 @@
+---
+- name: Install samba
+  ansible.builtin.apt:
+    name: samba
+    state: present
+
+- name: Manage smb.conf
+  ansible.builtin.template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+    mode: '0644'
+    owner: root
+    group: root
+    validate: "testparm -s %s"
+  notify:
+    - Reload Samba
+
+- name: Add linux user
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+  with_items: "{{ samba_users }}"
+  no_log: true
+
+- name: Create smb password for user
+  ansible.builtin.shell: set -o pipefail && (echo {{ item.password }};echo {{ item.password }}) | smbpasswd -s -a {{ item.name }}
+  with_items: "{{ samba_users }}"
+  changed_when: true
+  # no_log: true
+
+- name: Create directory
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    recurse: true
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+  loop: "{{ samba_shares }}"

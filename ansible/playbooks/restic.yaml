@@ -1,0 +1,18 @@
+---
+- name: Manage the NAS server
+  hosts: group_nas
+  gather_facts: false
+  pre_tasks:
+    - name: Create user for reaper-backup
+      ansible.builtin.user:
+        name: reaper-backup
+        shell: /bin/bash
+        state: present
+    - name: Add authorized key
+      ansible.posix.authorized_key:
+        user: "{{ item.0.name }}"
+        state: present
+        key: "{{ item.1 }}"
+      loop: "{{ user_list | subelements('authorized_keys') }}"
+  roles:
+    - restic

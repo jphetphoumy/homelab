@@ -1,0 +1,93 @@
+---
+# tasks file for restic
+- name: Install restic
+  ansible.builtin.apt:
+    name: restic
+    state: present
+
+- name: Update restic
+  ansible.builtin.command: "restic self-update"
+  changed_when: false
+
+- name: Check if repository exists
+  ansible.builtin.stat:
+    path: "{{ item.repository }}"
+  loop: "{{ restic_backups }}"
+  register: repositories
+
+- name: Initialize repository from HDD
+  ansible.builtin.shell: >
+    restic -r {{ item.item.repository }} init
+  changed_when: true
+  environment:
+    RESTIC_PASSWORD: "{{ restic_repo_password }}"
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"
+  when: not item.stat.exists
+
+- name: Make sure user have access to backup
+  ansible.builtin.file:
+    path: "{{ item.item.repository }}"
+    owner: "{{ item.item.user }}"
+    group: "{{ item.item.user }}"
+    recurse: true
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"
+
+- name: Create subdirectory for env
+  ansible.builtin.file:
+    path: "/etc/systemd/system/restic@{{ item.item.repository | basename }}.service.d/"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"
+
+- name: Create the systemd service
+  ansible.builtin.template:
+    src: restic@.service.j2
+    dest: /etc/systemd/system/restic@.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Daemon reload
+
+- name: Create the timer for restic service
+  ansible.builtin.template:
+    src: restic@.timer.j2
+    dest: /etc/systemd/system/restic@.timer
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"
+  notify:
+    - Daemon reload
+
+- name: Create the environment for restic repo
+  ansible.builtin.template:
+    src: restic.env.j2
+    dest: "/etc/systemd/system/restic@{{ item.item.repository | basename }}.service.d/restic.env"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"
+  notify:
+    - Daemon reload
+
+- name: Enable the systemd timer for each backup
+  ansible.builtin.systemd_service:
+    name: "restic@{{ item.item.repository | basename }}.timer"
+    enabled: true
+    state: started
+  loop: "{{ repositories.results }}"
+  loop_control:
+    label: "{{ item.item.repository }}"

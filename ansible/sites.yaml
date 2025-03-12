@@ -1,0 +1,11 @@
+---
+- name: Upgrade server
+  hosts: "all:!openbsd-router"
+  tasks:
+    - name: Upgrade server
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+
+- name: Manage Backup server
+  import_playbook: playbooks/restic.yaml
