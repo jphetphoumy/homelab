@@ -1,0 +1,9 @@
+[Unit]
+Description=Delete old restic snapshot for %i
+
+[Service]
+ExecStart=/usr/bin/restic -r /mnt/backup/%i forget --keep-daily 7
+EnvironmentFile=/etc/systemd/system/restic@%i.service.d/restic.env
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+{{ ansible_managed | comment }}
+{% for samba_share in samba_shares %}
+[{{ samba_share.name }}]
+  comment = {{ samba_share.comment }}
+  path = {{ samba_share.path }}
+  {% if samba_share.read_only is defined -%}
+  read only = {{ samba_share.read_only }}
+  {% endif %}
+  {%- if samba_share.writeable is defined -%}
+  writeable = {{ samba_share.writeable }}
+  {% endif -%}
+  force user = {{ samba_share.user }}
+{% endfor %}

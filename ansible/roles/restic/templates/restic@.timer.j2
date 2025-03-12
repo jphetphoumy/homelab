@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily timer to delete old restic snapshots for %i
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+Unit=restic@%i.service
+
+[Install]
+WantedBy=timers.target
