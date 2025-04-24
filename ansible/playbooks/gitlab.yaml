@@ -1,0 +1,7 @@
+---
+- name: Manage Gitlab
+  become: true
+  hosts: group_gitlab
+  gather_facts: false
+  roles:
+    - gitlab
