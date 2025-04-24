@@ -1,11 +1,12 @@
 locals {
+  vm_id_base = terraform.workspace == "default" ? 500 : 2000
   template_file_id = {
     debian12 = "local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
   }
 
   containers = {
     galatea = {
-      vm_id        = 505
+      vm_id        = local.vm_id_base + 5
       datastore_id = "data"
       ipv4_address = "192.168.1.5/24"
       ipv4_gateway = "192.168.1.1"
@@ -25,6 +26,25 @@ locals {
           path   = "/mnt/backup"
         }
       ]
+    }
+  }
+
+  virtual_machines = {
+    gitlab = {
+      vm_id        = local.vm_id_base + 6
+      datastore_id = "data"
+      ipv4_address = "192.168.1.6/24"
+      ipv4_gateway = "192.168.1.1"
+      tags         = ["gitlab", "linux", "vm"]
+      cpu          = 2
+      memory       = 8192
+      disk_size    = 50
+      username     = "jphetphoumy"
+      network_interfaces = [{
+        bridge   = "vmbr0"
+        firewall = null
+        vlan_id  = null
+      }]
     }
   }
 

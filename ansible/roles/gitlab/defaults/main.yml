@@ -1,0 +1,6 @@
+---
+# defaults file for gitlab
+gitlab_external_url: ""
+gitlab_package: "gitlab-ee"
+gitlab_version: ""
+gitlab_root_password: ""

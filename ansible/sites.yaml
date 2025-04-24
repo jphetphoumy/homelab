@@ -9,3 +9,6 @@
 
 - name: Manage Backup server
   import_playbook: playbooks/restic.yaml
+
+- name: Manage gitlab server
+  import_playbook: playbooks/gitlab.yaml

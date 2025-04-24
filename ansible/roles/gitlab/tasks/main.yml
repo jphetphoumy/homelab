@@ -1,0 +1,44 @@
+---
+# tasks file for gitlab
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: 
+      - curl
+      - openssh-server
+      - ca-certificates
+      - perl
+    update_cache: true
+    state: present
+
+- name: Add GitLab package repository
+  shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash
+  args:
+    executable: /bin/bash
+
+- name: Install GitLab EE
+  ansible.builtin.apt:
+    name: "{{ gitlab_package }}{{ '=' + gitlab_version if gitlab_version else '' }}"
+    state: present
+    update_cache: true 
+  environment:
+    GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
+
+- name: Install GitLab EE
+  ansible.builtin.shell: "gitlab-ctl reconfigure"
+  environment:
+    GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
+
+- name: Read the GitLab initial root password file
+  ansible.builtin.slurp:
+    src: /etc/gitlab/initial_root_password
+  register: slurped_password
+  when: gitlab_root_password == "" 
+
+- name: Extract password with regex
+  ansible.builtin.set_fact:
+    gitlab_root_password: "{{ (slurped_password['content'] | b64decode) | regex_search('Password: (.+)', '\\1') }}"
+  when: gitlab_root_password == "" 
+
+- name: Show decoded GitLab root password
+  ansible.builtin.debug:
+    msg: "{{ gitlab_root_password }}"
