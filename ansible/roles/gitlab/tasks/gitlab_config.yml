@@ -1,0 +1,40 @@
+---
+- name: Set GitLab external URL
+  ansible.builtin.lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: '^external_url'
+    line: "external_url '{{ gitlab_external_url }}'"
+    create: yes
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Set GitLab nginx listen port
+  ansible.builtin.lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: ^(#\s*)?nginx\['listen_port'\]
+    line: "nginx['listen_port'] = {{ gitlab_nginx_listen_port }}"
+    create: yes
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Set GitLab nginx listen port
+  ansible.builtin.lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: ^(#\s*)?nginx\['listen_https'\]
+    line: "nginx['listen_https'] = {{ gitlab_nginx_listen_https | string | lower}}"
+    create: yes
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Set GitLab metrics allowed list
+  ansible.builtin.lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: ^(#\s*)?gitlab_rails\['monitoring_whitelist'\]
+    line: "gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '192.168.1.0/24']"
+    create: yes
+    owner: root
+    group: root
+    mode: '0600'

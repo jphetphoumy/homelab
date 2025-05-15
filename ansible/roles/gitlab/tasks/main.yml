@@ -28,6 +28,11 @@
   environment:
     GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
 
+- name: Configure gitlab
+  ansible.builtin.import_tasks: "gitlab_config.yml"
+  notify:
+    - Gitlab reconfigure
+
 - name: Read the GitLab initial root password file
   ansible.builtin.slurp:
     src: /etc/gitlab/initial_root_password
