@@ -1,0 +1,7 @@
+---
+# defaults file for coredns
+coredns_version: "1.12.1"
+coredns_arch: "linux_amd64"
+coredns_url: "https://github.com/coredns/coredns/releases/download/v{{ coredns_version }}/coredns_{{ coredns_version }}_{{ coredns_arch }}.tgz"
+coredns_install_dir: "/usr/local/bin"
+coredns_config_dir: "/etc/coredns"

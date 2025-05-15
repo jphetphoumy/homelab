@@ -1,0 +1,3 @@
+---
+coredns_zones:
+  - "db.hackandpwned.fr"

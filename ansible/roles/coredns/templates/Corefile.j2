@@ -1,0 +1,13 @@
+.:53 {
+    forward . {{ dns_upstream | default("192.168.1.1") }}
+    log
+    errors
+    cache 30
+}
+{% for dns_zone in coredns_zones %}
+{{ dns_zone | regex_replace('^db\\.', '') }} {
+    forward . {{ dns_upstream | default("192.168.1.1") }}
+    file {{ coredns_config_dir }}/zones/{{ dns_zone }}
+    log
+}
+{% endfor %}

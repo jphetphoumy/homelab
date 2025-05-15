@@ -1,0 +1,60 @@
+---
+# tasks file for coredns
+- name: Download CoreDNS archive
+  ansible.builtin.get_url:
+    url: "{{ coredns_url }}"
+    dest: "/tmp/coredns_{{ coredns_version }}_{{ coredns_arch }}.tgz"
+    mode: '0644'
+
+- name: Extract CoreDNS archive
+  ansible.builtin.unarchive:
+    src: "/tmp/coredns_{{ coredns_version }}_{{ coredns_arch }}.tgz"
+    dest: "{{ coredns_install_dir }}"
+    remote_src: yes
+    mode: '0755'
+
+- name: Ensure CoreDNS config directory exists
+  file:
+    path: "{{ coredns_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Ensure CoreDNS is executable
+  ansible.builtin.file:
+    path: "{{ coredns_install_dir }}/coredns"
+    mode: '0755'
+    state: file
+
+- name: Create zones directory
+  file:
+    path: "{{ coredns_config_dir }}/zones"
+    state: directory
+    mode: '0755'
+
+- name: Generate CoreDNS zone files
+  template:
+    src: zonefile.j2
+    dest: "{{ coredns_config_dir }}/zones/{{ item }}"
+  loop: "{{ coredns_zones }}"
+  vars:
+    zone: "{{ item }}"
+  notify: Restart CoreDNS
+
+- name: Deploy CoreDNS Corefile config
+  ansible.builtin.template:
+    src: Corefile.j2
+    dest: "{{ coredns_config_dir }}/Corefile"
+    mode: '0644'
+  notify: Restart CoreDNS
+
+- name: Create systemd unit file for CoreDNS
+  ansible.builtin.template:
+    src: coredns.service.j2
+    dest: /etc/systemd/system/coredns.service
+  notify: Restart CoreDNS
+
+- name: Enable CoreDNS service
+  systemd:
+    name: coredns
+    enabled: true
+
