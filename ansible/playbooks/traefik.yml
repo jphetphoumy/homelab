@@ -1,0 +1,6 @@
+---
+- name: Manage traefik
+  hosts: group_traefik
+  gather_facts: false
+  roles:
+    - traefik

@@ -1,0 +1,105 @@
+---
+# tasks file for traefik
+- name: Check if Traefik binary already exists
+  stat:
+    path: "{{ traefik_bin_dir }}/traefik"
+  register: traefik_binary
+
+- name: Download Traefik binary if not present or version mismatch
+  when: not traefik_binary.stat.exists
+  block:
+    - name: Create temporary directory for Traefik download
+      tempfile:
+        state: directory
+        suffix: traefik
+      register: temp_traefik_dir
+    - name: debug
+      debug:
+        msg: "{{ temp_traefik_dir }}"
+    - name: Download Traefik binary
+      ansible.builtin.get_url:
+        url: "{{ traefik_download_url }}/{{ traefik_version }}/traefik_{{ traefik_version }}_linux_amd64.tar.gz"
+        dest: "{{ temp_traefik_dir.path }}/traefik.tar.gz"
+        mode: 0644
+
+    - name: Extract Traefik binary
+      ansible.builtin.unarchive:
+        src: "{{ temp_traefik_dir.path }}/traefik.tar.gz"
+        dest: "{{ traefik_bin_dir }}"
+        remote_src: true
+        mode: 0755
+
+    - name: Cleanup temporary directory
+      ansible.builtin.file:
+        path: "{{ temp_traefik_dir.path }}"
+        state: absent
+
+- name: Create traefik user
+  ansible.builtin.user:
+    name: "{{ traefik_user }}"
+    comment: traefik user
+    create_home: false
+    shell: /usr/sbin/nologin
+
+- name: Create traefik directory if it does not exists
+  ansible.builtin.file:
+    path: "{{ traefik_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0755'
+
+- name: Create traefik directory if it does not exists
+  ansible.builtin.file:
+    path: "{{ traefik_path }}/letsencrypt"
+    state: directory
+    recurse: true
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0600'
+
+- name: Copy traefik configuration
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_path }}/traefik.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0644'
+
+- name: Copy env configuration
+  ansible.builtin.template:
+    src: env.j2
+    dest: "/etc/default/traefik"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0644'
+
+- name: Copy Custom configuration
+  ansible.builtin.template:
+    src: reverse_proxy.yml.j2
+    dest: "{{ traefik_path }}/reverse_proxy.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0644'
+  register: traefik_config
+  notify:
+    - Reload systemd
+    - Restart traefik
+
+- name: Ensure Traefik service file is present
+  template:
+    src: traefik.service.j2
+    dest: /etc/systemd/system/traefik.service
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - Reload systemd
+    - Restart traefik
+
+- name: Ensure Traefik is enabled and started
+  systemd:
+    name: traefik
+    enabled: true
+    state: started
