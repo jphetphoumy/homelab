@@ -1,0 +1,46 @@
+log:
+  level: INFO
+
+serversTransport:
+  insecureSkipVerify: true
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: :443
+
+  ssh:
+    address: :2222
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      dnsChallenge:
+        provider: ovh
+      email: j.phetphoumy@gmail.com
+      storage: {{ traefik_path }}/letsencrypt/acme.json
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+
+http:
+    middlewares:
+      redirectscheme:
+        redirectScheme:
+          scheme: https
+          permanent: true
+providers:
+  file:
+    directory: {{ traefik_path }}

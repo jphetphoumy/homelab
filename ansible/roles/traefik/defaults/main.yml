@@ -1,0 +1,9 @@
+---
+# defaults file for traefik
+traefik_image: traefik
+traefik_bin_dir: "/usr/local/bin"
+traefik_version: "v3.4.0"
+traefik_download_url: "https://github.com/traefik/traefik/releases/download"
+traefik_path: "/opt/traefik"
+traefik_user: "traefik"
+traefik_config_file: "{{ traefik_path }}/traefik.yml"

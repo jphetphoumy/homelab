@@ -1,0 +1,15 @@
+Unit]
+Description=Traefik Service
+Documentation=https://doc.traefik.io/traefik/
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/traefik \
+    --configFile={{ traefik_config_file | default('/etc/traefik/traefik.yaml') }}
+Restart=always
+RestartSec=5s
+LimitNOFILE=1048576
+EnvironmentFile={{ traefik_env_file | default('/etc/default/traefik') }}
+
+[Install]
+WantedBy=multi-user.target

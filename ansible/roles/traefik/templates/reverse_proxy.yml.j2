@@ -1,0 +1,24 @@
+http:
+  routers:
+{% for router in traefik_configuration.routers %}
+    {{ router.name }}-router:
+        rule: "{{ router.rule }}"
+        service: "{{ router.name }}-service"
+        entryPoints:
+{% for entrypoint in router.entrypoints %}
+          - {{ entrypoint }}
+        tls:
+          certResolver: myresolver
+          domains:
+            - main: "hackandpwned.fr"
+              sans: "*.hackandpwned.fr"
+{% endfor -%}
+{% endfor %}
+
+  services:
+  {% for service in traefik_configuration.services %}
+  {{ service.name }}-service:
+      loadBalancer:
+        servers:
+          - url: "{{ service.url }}"
+  {% endfor %}
