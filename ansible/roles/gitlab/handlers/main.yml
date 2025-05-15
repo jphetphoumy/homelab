@@ -1,2 +1,4 @@
 ---
 # handlers file for gitlab
+- name: Gitlab reconfigure
+  ansible.builtin.shell: "gitlab-ctl reconfigure"
