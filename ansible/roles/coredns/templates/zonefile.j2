@@ -1,0 +1,12 @@
+$TTL 3600
+@   IN  SOA ns1.{{ zone | regex_replace('^db\\.', '') }}. admin.{{ zone | regex_replace('^db\\.', '') }}. (
+        2024050101 ; serial
+        3600       ; refresh
+        1800       ; retry
+        604800     ; expire
+        86400 )    ; minimum
+
+    IN  NS  ns1.{{ zone | regex_replace('^db\\.', '') }}.
+
+ns1 IN  A   {{ ns_ip | default("127.0.0.1") }}
+*   IN  A   192.168.1.7

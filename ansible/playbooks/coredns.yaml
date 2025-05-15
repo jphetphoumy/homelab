@@ -1,0 +1,5 @@
+---
+- name: Manage DNS server
+  hosts: group_dns
+  roles:
+    - coredns
