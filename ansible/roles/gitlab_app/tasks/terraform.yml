@@ -1,0 +1,40 @@
+---
+- name: Ensure Terraform token exists for root user
+  ansible.builtin.shell: |
+    gitlab-rails runner "
+      user = User.find_by_username('root')
+      token = user.personal_access_tokens.find_by(name: 'Terraform')
+      unless token
+        token = user.personal_access_tokens.create(
+          scopes: ['api', 'read_api'],
+          name: 'Terraform',
+          expires_at: 365.days.from_now
+        )
+        token.set_token('{{ gitlab_app_terraform_token }}')
+        token.save!
+        puts 'Token created'
+      else
+        puts 'Token already exists'
+      end
+    "
+  args:
+    executable: /bin/bash
+  changed_when: "'Token created' in result.stdout"
+  register: result
+
+- name: Enable import and export settings for terraform GitLab
+  ansible.builtin.shell: |
+    gitlab-rails runner "
+      settings = ApplicationSetting.first
+      desired_sources = ['git']
+      if settings.import_sources != desired_sources
+        settings.update(import_sources: desired_sources)
+        puts 'Updated import_sources'
+      else
+        puts 'Already correct'
+      end
+    "
+  args:
+    executable: /bin/bash
+  register: result
+  changed_when: "'Updated import_sources' in result.stdout"

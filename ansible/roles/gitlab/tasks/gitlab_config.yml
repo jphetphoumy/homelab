@@ -29,12 +29,12 @@
     group: root
     mode: '0600'
 
-- name: Set GitLab metrics allowed list
-  ansible.builtin.lineinfile:
-    path: /etc/gitlab/gitlab.rb
-    regexp: ^(#\s*)?gitlab_rails\['monitoring_whitelist'\]
-    line: "gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '192.168.1.0/24']"
-    create: yes
-    owner: root
-    group: root
-    mode: '0600'
+#- name: Set GitLab metrics allowed list
+#  ansible.builtin.lineinfile:
+#    path: /etc/gitlab/gitlab.rb
+#    regexp: ^(#\s*)?gitlab_rails\['monitoring_whitelist'\]
+#    line: "gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '192.168.1.0/24']"
+#    create: yes
+#    owner: root
+#    group: root
+#    mode: '0600'

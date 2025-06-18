@@ -10,6 +10,14 @@ resource "proxmox_virtual_environment_vm" "this" {
     enabled = false
   }
 
+  dynamic "clone" {
+    for_each = var.clone_id != null ? [1] : []
+    content {
+      vm_id = var.clone_id
+      full = var.full_clone
+    }
+  }
+
   stop_on_destroy = true
 
   startup {

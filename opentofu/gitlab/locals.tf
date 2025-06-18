@@ -14,8 +14,8 @@ locals {
     homelab = {
       group = "devops"
     }
-    flux-lab = {
-      group = "devops"
-    }
+    #flux-lab = {
+    #  group = "devops"
+    #}
   }
 }

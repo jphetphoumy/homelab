@@ -6,6 +6,8 @@ module "virtual_machine" {
 
   hostname     = "gitlab"
   vm_id        = 506
+  clone_id     = 100
+  full_clone   = true
   ipv4_address = "192.168.1.6/24"
   ipv4_gateway = "192.168.1.1"
   ssh_public_keys = [
@@ -36,6 +38,14 @@ resource "null_resource" "ansible" {
   depends_on = [null_resource.wait_for]
 
   provisioner "local-exec" {
-    command = "source ../../../.env && cd ../../../ansible && ansible-playbook -i inventory.proxmox.yml playbooks/gitlab.yaml"
+    command = "source ../../../.env && cd ../../../ansible && ansible-playbook -i inventory.proxmox.yml playbooks/gitlab.yaml --become"
+  }
+}
+
+resource "null_resource" "gitlab_app_config" {
+  depends_on = [null_resource.ansible]
+
+  provisioner "local-exec" {
+    command = "source ../../../.env && cd ../../../ansible && ansible-playbook -i inventory.proxmox.yml playbooks/gitlab_app_config.yaml --become"
   }
 }

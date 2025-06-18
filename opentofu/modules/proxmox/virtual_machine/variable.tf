@@ -107,3 +107,13 @@ variable "tiers" {
     }
   }
 }
+
+variable "clone_id" {
+  type = number
+  default = null
+}
+
+variable "full_clone" {
+  type = bool
+  default = true
+}

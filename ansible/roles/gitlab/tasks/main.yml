@@ -17,7 +17,8 @@
 
 - name: Install GitLab EE
   ansible.builtin.apt:
-    name: "{{ gitlab_package }}{{ '=' + gitlab_version if gitlab_version else '' }}"
+    #name: "{{ gitlab_package }}{{ '=' + gitlab_version if gitlab_version else '' }}"
+    name: "{{ gitlab_package }}"
     state: present
     update_cache: true 
   environment:
@@ -30,20 +31,37 @@
 
 - name: Configure gitlab
   ansible.builtin.import_tasks: "gitlab_config.yml"
-  notify:
-    - Gitlab reconfigure
 
-- name: Read the GitLab initial root password file
-  ansible.builtin.slurp:
-    src: /etc/gitlab/initial_root_password
-  register: slurped_password
-  when: gitlab_root_password == "" 
+#- name: Read the GitLab initial root password file
+#  ansible.builtin.slurp:
+#    src: /etc/gitlab/initial_root_password
+#  register: slurped_password
+#  when: gitlab_root_password == "" 
+#
+#- name: Extract password with regex
+#  ansible.builtin.set_fact:
+#    gitlab_root_password: "{{ (slurped_password['content'] | b64decode) | regex_search('Password: (.+)', '\\1') }}"
+#  when: gitlab_root_password == "" 
+#
+#- name: Show decoded GitLab root password
+#  ansible.builtin.debug:
+#    msg: "{{ gitlab_root_password }}"
 
-- name: Extract password with regex
-  ansible.builtin.set_fact:
-    gitlab_root_password: "{{ (slurped_password['content'] | b64decode) | regex_search('Password: (.+)', '\\1') }}"
-  when: gitlab_root_password == "" 
+- name: Check if gitlab is running and reconfigure if the service is not running
+  block:
+    - name: Enable gitlab
+      ansible.builtin.service:
+        name: gitlab-runsvdir
+        enabled: yes
+        state: started
+  rescue:
+    - name: Reconfigure gitlab
+      ansible.builtin.shell: gitlab-ctl reconfigure
+    - name: Enable gitlab
+      ansible.builtin.service:
+        name: gitlab-runsvdir
+        enabled: yes
+        state: started
 
-- name: Show decoded GitLab root password
-  ansible.builtin.debug:
-    msg: "{{ gitlab_root_password }}"
+#- name: Restart gitlab
+#  ansible.builtin.meta: flush_handlers
