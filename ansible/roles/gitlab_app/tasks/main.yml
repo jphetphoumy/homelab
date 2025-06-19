@@ -1,0 +1,15 @@
+---
+# tasks file for gitlab_app
+- name: Check if GitLab is installed
+  stat:
+    path: /opt/gitlab/bin/gitlab-ctl
+  register: gitlab_installed
+
+- name: Fail if GitLab is not installed
+  fail:
+    msg: |
+      GitLab is not installed. Please run the `gitlab` role first.
+  when: not gitlab_installed.stat.exists
+
+- name: Configure gitlab to allow terraform integration
+  ansible.builtin.import_tasks: "terraform.yml"
