@@ -1,0 +1,9 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for forgejo
+
+- name: restart forgejo
+  ansible.builtin.service:
+    name: forgejo
+    state: restarted
+  become: true
