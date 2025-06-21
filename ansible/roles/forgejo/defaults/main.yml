@@ -1,0 +1,32 @@
+---
+# Forgejo version and download details
+forgejo_version: "11.0.2"
+forgejo_binary: "forgejo-{{ forgejo_version }}-linux-amd64"
+forgejo_url_base: "https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}"
+forgejo_key_id: "EB114F5E6C0DC2BCDD183550A4B61A2DC5923710"
+
+## APP INI
+
+forgejo_app_name: "Forgejo"
+forgejo_run_user: "git"
+forgejo_app_slogan: "Beyond coding. We Forge."
+forgejo_run_mode: "prod"
+forgejo_work_path: "/var/lib/forgejo"
+
+# Server
+forgejo_server_ssh_domain: "forgejo.hackandpwned.fr"
+forgejo_server_domain: "forgejo.hackandpwned.fr"
+forgejo_server_http_port: 3000
+forgejo_server_root_url: "https://{{ forgejo_server_domain }}/"
+forgejo_server_data_path: "/var/lib/forgejo/data"
+forgejo_server_disable_ssh: False
+forgejo_server_ssh_port: 22
+
+
+# Database
+forgejo_database_db_type: "sqlite3"
+forgejo_database_path: "/var/lib/forgejo/data/forgejo.db"
+
+# Security
+
+forgejo_security_install_lock: True

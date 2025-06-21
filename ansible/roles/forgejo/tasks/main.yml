@@ -1,0 +1,9 @@
+---
+- name: Install forgejo
+  ansible.builtin.include_tasks: "installation.yml"
+  
+- name: Configure forgejo
+  ansible.builtin.include_tasks: "configuration.yml"
+
+- name: Manage forgejo admin user
+  ansible.builtin.include_tasks: "admin_user.yml"
