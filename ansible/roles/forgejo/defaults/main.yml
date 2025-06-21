@@ -1,0 +1,6 @@
+---
+# Forgejo version and download details
+forgejo_version: "11.0.2"
+forgejo_binary: "forgejo-{{ forgejo_version }}-linux-amd64"
+forgejo_url_base: "https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}"
+forgejo_key_id: "EB114F5E6C0DC2BCDD183550A4B61A2DC5923710"

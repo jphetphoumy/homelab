@@ -21,6 +21,10 @@ output "ssh_pub_key" {
   value = data.gitlab_project_mirror_public_key.this.public_key
 }
 
+output "ssh" {
+  value = data.gitlab_project_mirror_public_key.this
+}
+
 resource "github_repository_deploy_key" "this" {
   title = "Gitlab deploy key - Mirror Synchro"
   repository = var.repository 
