@@ -1,0 +1,7 @@
+---
+- name: Manage forgejo server 
+  hosts: group_forgejo
+  become: true
+  gather_facts: true
+  roles:
+    - forgejo 

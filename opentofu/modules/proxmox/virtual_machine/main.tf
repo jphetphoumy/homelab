@@ -7,7 +7,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
 
   agent {
-    enabled = false
+    enabled = var.qemu_agent
   }
 
   dynamic "clone" {

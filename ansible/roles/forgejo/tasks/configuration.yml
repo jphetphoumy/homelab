@@ -1,0 +1,55 @@
+---
+# Ensure git and git-lfs are installed
+- name: Ensure git and git-lfs are installed
+  ansible.builtin.package:
+    name:
+      - git
+      - git-lfs
+    update_cache: true
+    state: present
+
+- name: Ensure group "git" exists
+  ansible.builtin.group:
+    name: git 
+    state: present
+
+- name: Create system user for Git
+  ansible.builtin.user:
+    name: git
+    shell: /bin/bash
+    comment: "Git Version Control"
+    system: yes
+    group: git
+    password: "!"
+    home: /home/git
+
+- name: Create forgejo folder data
+  ansible.builtin.file:
+    name: /var/lib/forgejo
+    owner: git
+    group: git
+    mode: '0750'
+    state: directory
+
+- name: Create forgejo folder config
+  ansible.builtin.file:
+    name: /etc/forgejo
+    owner: root 
+    group: git
+    mode: '0770'
+    state: directory
+
+- name: forgejo Service
+  ansible.builtin.template:
+    src: "forgejo.service.j2"
+    dest: /etc/systemd/system/forgejo.service
+
+- name: Enable forgejo 
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: forgejo 
+
+- name: Service forgejo 
+  ansible.builtin.systemd_service:
+    state: started 
+    name: forgejo 

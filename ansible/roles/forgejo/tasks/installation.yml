@@ -1,0 +1,48 @@
+---
+- name: Ensure GPG is installed
+  ansible.builtin.package:
+    name: gnupg
+    state: present
+
+- name: Check if Forgejo binary already exists with correct version
+  ansible.builtin.stat:
+    path: "/usr/local/bin/forgejo"
+  register: forgejo_binary_stat
+
+- name: Get Forgejo version if binary exists
+  ansible.builtin.command: "/usr/local/bin/forgejo --version"
+  register: forgejo_version_check
+  changed_when: false
+  failed_when: false
+  when: forgejo_binary_stat.stat.exists
+
+- name: Download Forgejo binary
+  ansible.builtin.get_url:
+    url: "{{ forgejo_url_base }}/{{ forgejo_binary }}"
+    dest: "/usr/local/bin/forgejo"
+    mode: '0755'
+  when: not forgejo_binary_stat.stat.exists or forgejo_version_check.stdout is not defined or forgejo_version_check.stdout is search('v' + forgejo_version) == false
+
+- name: Download Forgejo GPG signature
+  ansible.builtin.get_url:
+    url: "{{ forgejo_url_base }}/{{ forgejo_binary }}.asc"
+    dest: "/usr/local/bin/{{ forgejo_binary }}.asc"
+  when: not forgejo_binary_stat.stat.exists or forgejo_version_check.stdout is not defined or forgejo_version_check.stdout is search('v' + forgejo_version) == false
+
+- name: Check if Forgejo GPG key is already imported
+  ansible.builtin.shell: "gpg --list-keys {{ forgejo_key_id }}"
+  register: gpg_key_check
+  changed_when: false
+  failed_when: false
+  
+- name: Import Forgejo GPG key
+  ansible.builtin.shell: "gpg --keyserver keys.openpgp.org --recv {{ forgejo_key_id }}"
+  when: gpg_key_check.rc != 0
+  register: gpg_key_import
+
+- name: Verify Forgejo binary GPG signature
+  ansible.builtin.shell: "gpg --verify /usr/local/bin/{{ forgejo_binary }}.asc /usr/local/bin/forgejo"
+  register: gpg_verify
+  failed_when: "'Good signature' not in gpg_verify.stderr"
+  changed_when: false
+  when: not forgejo_binary_stat.stat.exists or forgejo_version_check.stdout is not defined or forgejo_version_check.stdout is search('v' + forgejo_version) == false

@@ -117,3 +117,8 @@ variable "full_clone" {
   type = bool
   default = true
 }
+
+variable "qemu_agent" {
+  type = bool
+  default = false
+}
