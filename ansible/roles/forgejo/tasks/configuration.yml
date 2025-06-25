@@ -39,6 +39,15 @@
     mode: '0770'
     state: directory
 
+- name: forgejo app.ini
+  ansible.builtin.template:
+    src: "forgejo.ini.j2"
+    dest: "/etc/forgejo/app.ini"
+    owner: git
+    group: git
+  notify:
+    - restart forgejo
+
 - name: forgejo Service
   ansible.builtin.template:
     src: "forgejo.service.j2"
@@ -53,3 +62,4 @@
   ansible.builtin.systemd_service:
     state: started 
     name: forgejo 
+
