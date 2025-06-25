@@ -21,7 +21,7 @@ resource "null_resource" "wait_for" {
   depends_on = [module.forgejo]
 
   connection {
-    host = "192.168.1.8"
+    host = "192.168.1.9"
     private_key = file("/home/jphetphoumy/.ssh/id_ed25519")
   }
 
@@ -30,10 +30,10 @@ resource "null_resource" "wait_for" {
   }
 }
 
-#resource "null_resource" "ansible" {
-#  depends_on = [null_resource.wait_for]
-#
-#  provisioner "local-exec" {
-#    command = "source ../../../.env && cd ../../../ansible && ansible-playbook -i inventory.proxmox.yml playbooks/forgejo.yaml -uroot"
-#  }
-#}
+resource "null_resource" "ansible" {
+  depends_on = [null_resource.wait_for]
+
+  provisioner "local-exec" {
+    command = "source ../../../.env && cd ../../../ansible && ansible-playbook -i inventory.proxmox.yml playbooks/forgejo.yaml -uroot"
+  }
+}
