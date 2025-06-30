@@ -1,0 +1,12 @@
+raspberry:
+  hosts:
+    node1:
+      ansible_host: 192.168.1.21
+    node2:
+      ansible_host: 192.168.1.22
+    node3:
+      ansible_host: 192.168.1.23
+    node4:
+      ansible_host: 192.168.1.24
+    node5:
+      ansible_host: 192.168.1.25
