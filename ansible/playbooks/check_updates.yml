@@ -1,0 +1,32 @@
+- name: Upgrade servers 
+  hosts: all 
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: List upgradable packages
+      shell: apt list --upgradable
+      register: upgrade_list
+      changed_when: false
+
+    - name: Show upgradable packages
+      debug:
+        var: upgrade_list.stdout_lines
+    
+    - name: Upgrade the server
+      apt:
+        upgrade: full
+        autoremove: true
+      when: upgrade_list.stdout_lines|length != 1
+
+    - name: Check if reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+      when: upgrade_list.stdout_lines|length != 1
+  
+    - name: Reboot if needed
+      reboot:
+      when: upgrade_list.stdout_lines|length != 1 or reboot_required.stat is defined and reboot_required.stat.exists
