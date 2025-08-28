@@ -1,0 +1,6 @@
+---
+- name: Manage k3s cluster
+  become: true
+  hosts: group_k3s
+  roles:
+    - k3s
