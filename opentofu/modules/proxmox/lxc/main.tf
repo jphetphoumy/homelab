@@ -22,6 +22,10 @@ resource "proxmox_virtual_environment_container" "this" {
   initialization {
     hostname = var.hostname
 
+    dns {
+      servers = var.dns_servers
+    }
+
     ip_config {
       ipv4 {
         address = var.ipv4_address
