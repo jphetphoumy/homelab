@@ -15,7 +15,7 @@ module "traefik" {
   ssh_public_keys = [
     file("/home/jphetphoumy/.ssh/id_ed25519.pub")
   ]
-
+  dns_servers = ["192.168.1.8"]
   mount_points = [
     {
       volume = "/media/Disk2/traefik"

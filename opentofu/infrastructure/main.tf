@@ -11,6 +11,7 @@ module "lxc" {
   datastore_id     = each.value.datastore_id
 
   hostname           = each.key
+  dns_servers        = each.value.dns_servers
   vm_id              = each.value.vm_id
   ipv4_address       = each.value.ipv4_address
   ipv4_gateway       = each.value.ipv4_gateway
@@ -27,7 +28,7 @@ module "vm_image" {
   source = "../modules/proxmox/vm_image"
 
   node_name = var.proxmox_node_name
-  image_url = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2"
+  image_url = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2"
 }
 
 module "virtual_machine" {

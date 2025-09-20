@@ -1,0 +1,46 @@
+samba_shares:
+    - name: Reaper_Backup
+      comment: Reaper music backup
+      path: /srv/ReaperBackup
+      read_only: false
+      writeable: "yes"
+      user: jphetphoumy
+    - name: VST_Backup
+      comment: VST Backup
+      path: /srv/VST_Backup
+      read_only: false
+      writeable: "yes"
+      user: jphetphoumy
+    - name: DRUMKIT_AND_SAMPLE
+      comment: Restic repo for Drumkit and sample
+      path: /srv/DRUMKIT_AND_SAMPLE
+      read_only: false
+      writeable: "yes"
+      user: jphetphoumy
+samba_users:
+    - name: jphetphoumy
+      password: ENC[AES256_GCM,data:zB2i1QY1,iv:VuekWNGS4LBfZifsnLPLimjpmT3fRTuJUT6aKEcfgHw=,tag:3P8cIwgxV71oubeH0axi/w==,type:str]
+sops:
+    age:
+        - recipient: age1survjknrlvvxq9lnjq0uu0v9ugyeezjcf6kdsm7jmxa4rmx4ucps5arhrq
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSSW03MHRrN0VzMTYwb0lJ
+            V1ptdDY2cUVLZkZjdXlLUTVpZHBEbDcwdkY0CmZaWlRkMlBtczFhcDU1V1lEeCsx
+            WlBJNlNGNzhLMkpOdE5HNjM2dlF4akkKLS0tIHJhS2tOZFowUGM4WmhybHhMQjRB
+            bVpSQ1JTazJWTGgycno3QzR2QklMSjAK4TnvX6eZzTUZJUuRHQtaB6elIz3ipYIu
+            /EwlcIjBOTVVCLk1S3TKWlg1enblM9KGuHRAZ1I6lm+DNrVeCNbq0g==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1txgjac6zr3m2429nryyyr95xpw0u6hnl29z0yadhh6u2cdx0f9ns3rg9jy
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlcjExR1NLb1lheW9OU3RT
+            Q0drUWV1RHJVVFNwdEtJa0xickZDUExCOXhRClFYcjloYnpTWmloTDJTQnA2YmtY
+            VktKbmFQbkdVdFhPRlYyTW5BVmRkN3MKLS0tIDJLK1drcTFjZk11eC9DVUJyVHVJ
+            cmlDTUM2OGRuaDYwSTJqMGZlQ3VRQTgKtSXfGWvKWRFaihdbkPIeBCKhXGuGrEm9
+            w7WHDaN2SVBIIcWrsnbCNF9iAgo0ZW8D7a7+3s8o3UNApzlS+asGHw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-09-20T17:49:33Z"
+    mac: ENC[AES256_GCM,data:h8sCIRwvlCZwGzEMT8ozJBkLinJEPugWsxqRsY2oBKVFC7WzO/410pKCDgsqUBWxcv8VzpCWMEvX9LQ7FTjX0rDMCL3jYb51ZoDofAVhFkZ/01dUoSOaPqybB/4xaQkMXwdOK8HeRKEj8OvpLOcWp2rhVJpZWiPli2xpujYXItU=,iv:W7K3Kz87I4D6+nYthFx4FvIniBYy+TTUCP0LSHjd5P4=,tag:Owf6M1523D8ZYccAJIGr3g==,type:str]
+    encrypted_regex: ^(password)
+    version: 3.10.2

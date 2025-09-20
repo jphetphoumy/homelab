@@ -1,0 +1,62 @@
+ovh_application_key: ENC[AES256_GCM,data:w0xSL4i1tV8hgQN8IQegig==,iv:aDARHnxHay2f07RQGklpiTYktdCA1JjRUb/fnba1s5M=,tag:3C9nLtCWcKvnbHpLFvyiPQ==,type:str]
+ovh_application_secret: ENC[AES256_GCM,data:mxu8EfhW/Vw5q1G9CUGP69bimfq9G7PG8TsLtlDDU1w=,iv:/iqSekC+GGK8FGWHQFW+wL0ABJuEvrsQVV36H/vBYDo=,tag:2W2SSUkifRQqVd9ambe/UA==,type:str]
+ovh_consumer_key: ENC[AES256_GCM,data:4lXSgNxGhbFaYVYC+TTLNnDgrh0GmMiN69T/6Jb6Iak=,iv:sEzDkE8JhnCXPikNTcOsW5LMY/sc7lotNIi/gkzCrXw=,tag:lR+CK8Q7MZ2+5ibS6omWxA==,type:str]
+traefik_configuration:
+    routers:
+        - name: proxmox
+          service: proxmox
+          rule: ENC[AES256_GCM,data:npqlhgzcLbM2AiXVMvBe+GxcdKJY4FaoLb2sSwyRkw==,iv:TJ9SeV3h8/kVWf1OOW6zQNbSWMZOndupt51Uv/uzY+Y=,tag:bDj7Ca3ORYrfVIoGwIZkCA==,type:str]
+          entrypoints:
+            - websecure
+        - name: gitlab
+          service: gitlab
+          rule: ENC[AES256_GCM,data:nYuOqskNNYAFVvgcpeOhnuZKDoaAYzRAthkrgdlP,iv:wGKpTif87c6S+v4BviXEBaCWJH/bVzm9ntUmvzgrvHM=,tag:UY2TfEPqXRQZiz4TwjEQlg==,type:str]
+          entrypoints:
+            - websecure
+        - name: grafana
+          service: grafana
+          rule: ENC[AES256_GCM,data:V1BWtccEaYiNzXGXWeqTlOS2dpR3xmpldBCcaiUtYA==,iv:Gb0RISMaq4J9/B1DKnNgGmJ5cpB2zm2Pr8hK95cMq88=,tag:EEfE2pACc8iLEKMqoo04lA==,type:str]
+          entrypoints:
+            - websecure
+        - name: prometheus
+          service: prometheus
+          rule: ENC[AES256_GCM,data:TM1fNyV5y0EdblMErYlO7m8VUA864avunru0eboMmWehbA==,iv:dEu+kpV5lKO0fiesm0wIi8SCgmdXRdqMiDNMhZueVGw=,tag:bcPpIjqlqps+lMhpDrT90Q==,type:str]
+          entrypoints:
+            - websecure
+    services:
+        - name: proxmox
+          url: ENC[AES256_GCM,data:w0nkSNnOV0Vb3/Xt3EtcmnrhlfFtGmSB53c=,iv:6ELOfEzb7iqGhbyoK2d1+U5nmq4DnrDk0gHwqleo+sg=,tag:6N7+B5kuZNSHXB0yxYg5vw==,type:str]
+        - name: minio
+          url: ENC[AES256_GCM,data:L8n/BBg5QzsAGo4EYDmD6pQGjz63tMML,iv:HiRQtZBOaxTV2V8RtP3oHSFdpqWGJb1vwjl41uXZjO8=,tag:NkCvGJqLod2LA7byXJsyeQ==,type:str]
+        - name: gitlab
+          url: ENC[AES256_GCM,data:5Ttr1eY/FUZ6pytaYlNMbpGz,iv:9G4yeGaj3LSg483VOXeXA0rvo5lUWg2QOVZEiROEPGs=,tag:cS7c8mLwBMrDXH5QOUrI1g==,type:str]
+        - name: forgejo
+          url: ENC[AES256_GCM,data:l3u7cyCf0hom7noOJLmvKFWj1BAYDQE=,iv:RE+oEErS0AWHMdc3Q2xTMf3qbynvwkm+aGlVeHC2ySQ=,tag:J0ya1rVpxfqo0FQ5tKiojw==,type:str]
+        - name: grafana
+          url: ENC[AES256_GCM,data:IGI2MZ6jP7/mGkInBZtt6QoATxUussYC,iv:2tnn+jzZYJqwcmYBfvdMnnMfAtkCn2XflsvXnta45uc=,tag:FNxtZHscbp3T0P2RbmFkLw==,type:str]
+        - name: prometheus
+          url: ENC[AES256_GCM,data:FuZbLMNRNFir5T1MW7ZKlDWQL3aFugLX,iv:MPXN519ZeGhcMyJHwu9g27eY4a7EU7HNpnWus8VgbXg=,tag:B0M5pKZ2NrG3lrJ0RIPdAA==,type:str]
+sops:
+    age:
+        - recipient: age1survjknrlvvxq9lnjq0uu0v9ugyeezjcf6kdsm7jmxa4rmx4ucps5arhrq
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAzR2ZvRzVPLy9nZHRrU3pM
+            UlFGZzlkMU04anZIVEdERU9UYUtUOTNOTVE4CklQK0oveGlCSEFLeUJUcG5pSFhn
+            T0txNVBGZlRmRmRZLzY2cGhSelU2LzAKLS0tIEh5c3J5OG5jejJvNldmdVpCYkUy
+            RUk5cUpKOEdoRHRWbnFCdkNOb3pKeE0KizybN51yJECVxvcACvFfJjm7zy9WCM2r
+            NFImp3zcmzkXk1tNSzFZ/PMX5TEwegaCDn3j+FZ6L/5qeHu5Egqc4Q==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1txgjac6zr3m2429nryyyr95xpw0u6hnl29z0yadhh6u2cdx0f9ns3rg9jy
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlT2NDVmRNV0NmUXhWQzY5
+            RlEvcFl6ZE82V05YUU1yblZ0eHM5Q05DV2prCkFQdXc4VThNWG9zNmtXMW5UcUZO
+            SEJqSkJ4ampoVEhvY3FEbkU1VklOSnMKLS0tIFQwMkF1RWduQ2FTN3U4Q1RtaXhJ
+            TnRuU2xxNUNqNGM2MVZCSjQvbC82REUKOozt1ZApVdHXPaQA8SWZX3KfKXl5JgKY
+            SlkwmVGDrlYe/pE2ZWwLAe6Otr/egrBp4QkcNr9i9blP3uzne0Phjg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-09-20T17:27:22Z"
+    mac: ENC[AES256_GCM,data:aOA+QPOnqQ5kUSKpdmyWz0pSKGkMsOBm5/fcxoQrNwCPfmrnzV+wUDpRmoKIOzq9H85mQRtHJDC0TLO1+Rh6wIOOwWZKkOVwshxulTjNZfNRONSXSZDW+yfuAoeTj7srdwEs0JYKFdOPWZ5EgoR69sSFuVCS/q88Spmy8xhgSl0=,iv:DVUE11yVskvBSd89qWeRouoKuO9nzCvJRn2et7i3tMY=,tag:80+TfEx9D6KS+aCCggv1pA==,type:str]
+    encrypted_regex: ^(ovh_*|url|rule)
+    version: 3.10.2

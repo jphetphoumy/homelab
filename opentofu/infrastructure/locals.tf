@@ -14,6 +14,9 @@ locals {
       cpu          = 1
       memory       = 512
       disk_size    = 20
+      dns_servers = [
+        "192.168.1.8"
+      ]
       network_interfaces = [{
         name     = "eth0"
         bridge   = "vmbr0"
@@ -30,22 +33,6 @@ locals {
   }
 
   virtual_machines = {
-    gitlab = {
-      vm_id        = local.vm_id_base + 6
-      datastore_id = "data"
-      ipv4_address = "192.168.1.6/24"
-      ipv4_gateway = "192.168.1.1"
-      tags         = ["gitlab", "linux", "vm"]
-      cpu          = 2
-      memory       = 8192
-      disk_size    = 50
-      username     = "jphetphoumy"
-      network_interfaces = [{
-        bridge   = "vmbr0"
-        firewall = null
-        vlan_id  = null
-      }]
-    }
   }
 
   ssh_public_keys = [

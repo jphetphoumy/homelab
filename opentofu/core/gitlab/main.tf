@@ -2,7 +2,7 @@ module "virtual_machine" {
   source = "../../modules/proxmox/virtual_machine"
 
   node_name = "proxmox2"
-  file_id   = "local:iso/debian-12-generic-amd64.img"
+  file_id   = "local:iso/debian-13-generic-amd64.img"
 
   hostname     = "gitlab"
   vm_id        = 506
