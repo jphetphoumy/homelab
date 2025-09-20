@@ -1,0 +1,35 @@
+restic_repo_password: ENC[AES256_GCM,data:RXy+h3gm,iv:FtPh8T5RbhC8ON7orZszmRGqv8ITLQcN9BC6R2G55ok=,tag:TLGifhWdsf4B4Y+pAX0hlg==,type:str]
+restic_backups:
+    - name: VST_Backup
+      user: reaper-backup
+      repository: /mnt/backup/VST_Backup
+    - name: DRUMKIT_AND_SAMPLE
+      user: reaper-backup
+      repository: /mnt/backup/DRUMKIT_AND_SAMPLE
+    - name: ReaperBackup
+      user: reaper-backup
+      repository: /mnt/backup/ReaperBackup
+sops:
+    age:
+        - recipient: age1survjknrlvvxq9lnjq0uu0v9ugyeezjcf6kdsm7jmxa4rmx4ucps5arhrq
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBXZzF6L0FmYlJoaTRxeHcy
+            Ky9nUG5ZdmNXTVlTTUE2bWNjKzlWcEtSZjNjCnJHTk9VbDN6ZHlmd0JEclo2NE9o
+            YVVsQVZmdkFRUXRPaURwa1FoS2xuN3cKLS0tIC9IWEdOOCtuQUpjeEtic1B6YWZW
+            RE5rUWNJZld2blBEeElzV0x5bXVRd1UKuRe9F7aAYPfv5IQb42+9M8j5Y/duSmMb
+            rtCeXzVFw+BEDQhNqAIIWf69Nq0Kn3pezCZduBtkGWm+Qeg5hf0N9w==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1txgjac6zr3m2429nryyyr95xpw0u6hnl29z0yadhh6u2cdx0f9ns3rg9jy
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBWcHFzdEhVYng2YzZmZ2VI
+            NEh5QWZNTzBHVUtHY0YvWDZ0WDlqWUxoalJjCng1dFRIWlJabWFhb3kzRGVSUWhH
+            ODVSRm9INm1YeUU5dEd1eWNaTmNyUjgKLS0tIDllaXUwOGYxaXlMQjVFRmJsMGky
+            WWFmd052cmxCdmRkUUF6VnhpamlSVGcKkCrWCPvCNegdhK9NjBxVO2VGSu0jDv+l
+            KObphcCvM7j7BU6yNRyIn/T2Kd/D7adK4YnFLh1CD0kqDxG7ly9YAw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-09-20T17:48:22Z"
+    mac: ENC[AES256_GCM,data:TEMlpohTrzcVetl39VoufDl5B5FPSBOYsNuyyH3HiDk3LVsf7LC31ThySJjXdar8dJG8TCqWrd6Js4h+lFBzTci7Z8dRyFajV7YpbZP0kjJsdKRarNNgR6xXDAzKQfAow0mPAfCGm5KLudmcOdgMAuGBZoKJVm26cHWa0xWrApQ=,iv:HEgZSupSBnVfkd0m8k5Xt+1K4Ul/2dg5bsw52cRqaLI=,tag:ko6jy0SyIFJssuNwAz2ALg==,type:str]
+    encrypted_regex: ^(.*_password)
+    version: 3.10.2
