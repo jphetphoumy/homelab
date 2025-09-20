@@ -1,3 +1,10 @@
+group_k3s:
+  hosts:
+    node1:
+    node2:
+    node3:
+    node4:
+    node5:
 raspberry:
   hosts:
     node1:

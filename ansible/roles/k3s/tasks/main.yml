@@ -1,0 +1,33 @@
+---
+# tasks file for k3s
+- name: Manage master node
+  include_tasks: master.yml
+
+- name: Debug
+  debug:
+    msg: "{{ hostvars['k3s-master'].k3s_join_token }}"
+
+- name: Download and install k3s-agent
+  shell: >
+    curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars['k3s-master'].ansible_host}}:6443 K3S_TOKEN={{ hostvars['k3s-master'].k3s_join_token }} sh -
+  args:
+    creates: /usr/local/bin/k3s
+  when: "'master' not in inventory_hostname"
+
+- name: Uninstall k3s
+  shell: /usr/local/bin/k3s-uninstall.sh
+  args:
+    removes: /usr/local/bin/k3s
+  when: "'master' in inventory_hostname"
+  tags:
+    - never
+    - k3s_uninstall
+
+- name: Uninstall k3s
+  shell: /usr/local/bin/k3s-agent-uninstall.sh
+  args:
+    removes: /usr/local/bin/k3s
+  when: "'master' not in inventory_hostname"
+  tags:
+    - never
+    - k3s_uninstall
