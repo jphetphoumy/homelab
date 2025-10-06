@@ -44,6 +44,9 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   initialization {
+    dns {
+      servers = var.dns_servers
+    }
 
     ip_config {
       ipv4 {

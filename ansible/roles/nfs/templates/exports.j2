@@ -1,0 +1,26 @@
+{% macro render_opts(o) -%}
+{%- set opts = [] -%}
+{% set mode = o.mode | default('rw') %}
+{% set sync_flag = 'sync' if (o.sync|default(true)) else 'async' %}
+{% set root_flag = 'root_squash' if (o.root_squash | default(true)) else 'no_root_squash' %}
+{% set subtree_flag = 'subtree_check' if (o.subtree_check | default(true)) else 'no_subtree_check' %}
+{% set opts = [
+    mode, sync_flag, root_flag, subtree_flag,
+    ('anonuid=' ~ o.anonuid) if (o.anonuid is defined) else none,
+    ('anongid=' ~ o.anongid) if (o.anongid is defined) else none,
+] %}
+{{- opts | unique | join(',') -}}
+{%- endmacro %}
+# /etc/exports: the access control list for filesystems which may be exported
+#               to NFS clients.  See exports(5).
+#
+# Example for NFSv2 and NFSv3:
+# /srv/homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+#
+# Example for NFSv4:
+# /srv/nfs4        gss/krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+# /srv/nfs4/homes  gss/krb5i(rw,sync,no_subtree_check)
+#
+{% for export in nfs_exports %}
+{{ export.path }} {{ export.clients|join(' ') }}({{ render_opts(export.options) }})
+{% endfor %}

@@ -22,6 +22,7 @@
             opentofu
             ansible
             packer
+            fluxcd
             # Linter and test
             tflint
             molecule

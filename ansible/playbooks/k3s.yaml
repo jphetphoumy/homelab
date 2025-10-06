@@ -4,3 +4,10 @@
   hosts: group_k3s
   roles:
     - k3s
+  tasks:
+    - name: Install nfs client
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+      tags:
+        - nfs

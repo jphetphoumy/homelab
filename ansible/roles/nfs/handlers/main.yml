@@ -1,0 +1,8 @@
+---
+# handlers file for nfs
+- name: Reload nfs-kernel-server
+  ansible.builtin.systemd:
+    name: nfs-kernel-server
+    state: reloaded
+  tags:
+    - nfs-export

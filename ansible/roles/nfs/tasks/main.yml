@@ -1,0 +1,25 @@
+---
+# tasks file for nfs
+- name: Install nfs-kernel-server
+  ansible.builtin.apt:
+    name: nfs-kernel-server
+    state: present
+  tags:
+    - nfs
+
+- name: Make sure path exists
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.options.anonuid }}"
+    group: "{{ item.options.anongid }}"
+    recurse: true
+  with_items: "{{ nfs_exports }}"
+- name: Configure nfs exports
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports
+  notify:
+    - Reload nfs-kernel-server
+  tags:
+    - nfs
+    - nfs-export
