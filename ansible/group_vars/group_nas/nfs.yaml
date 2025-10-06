@@ -1,0 +1,10 @@
+nfs_exports:
+  - path: /srv/Music
+    clients:
+      - 192.168.1.0/24
+    options:
+      mode: rw
+      sync: true
+      anonuid: 1000
+      anongid: 1000
+      subtree_check: true

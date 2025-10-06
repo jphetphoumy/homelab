@@ -23,6 +23,11 @@ traefik_configuration:
           rule: ENC[AES256_GCM,data:TM1fNyV5y0EdblMErYlO7m8VUA864avunru0eboMmWehbA==,iv:dEu+kpV5lKO0fiesm0wIi8SCgmdXRdqMiDNMhZueVGw=,tag:bcPpIjqlqps+lMhpDrT90Q==,type:str]
           entrypoints:
             - websecure
+        - name: navidrome
+          service: navidrome
+          rule: ENC[AES256_GCM,data:ItUsLcHUfiMldbPQ2SoUB8mSGx7m/2fnsVlbEmnjhslZ,iv:2DIjgu1r3EiMDSQD/mqkPEeed7f8DaI9uCi/LUpMpAQ=,tag:oTyYoOrdxAAPczBu4nhpaA==,type:str]
+          entrypoints:
+            - websecure
     services:
         - name: proxmox
           url: ENC[AES256_GCM,data:w0nkSNnOV0Vb3/Xt3EtcmnrhlfFtGmSB53c=,iv:6ELOfEzb7iqGhbyoK2d1+U5nmq4DnrDk0gHwqleo+sg=,tag:6N7+B5kuZNSHXB0yxYg5vw==,type:str]
@@ -36,6 +41,8 @@ traefik_configuration:
           url: ENC[AES256_GCM,data:IGI2MZ6jP7/mGkInBZtt6QoATxUussYC,iv:2tnn+jzZYJqwcmYBfvdMnnMfAtkCn2XflsvXnta45uc=,tag:FNxtZHscbp3T0P2RbmFkLw==,type:str]
         - name: prometheus
           url: ENC[AES256_GCM,data:FuZbLMNRNFir5T1MW7ZKlDWQL3aFugLX,iv:MPXN519ZeGhcMyJHwu9g27eY4a7EU7HNpnWus8VgbXg=,tag:B0M5pKZ2NrG3lrJ0RIPdAA==,type:str]
+        - name: navidrome
+          url: ENC[AES256_GCM,data:2Pv1Z1oAToVuIumK5J9owrXfNHA=,iv:EmAgAQhYf27gkuGLL4m8cI3hD7RGjf+70z+GcHx5L2k=,tag:TUh62/GGgDwg/WUD3EW3Cw==,type:str]
 sops:
     age:
         - recipient: age1survjknrlvvxq9lnjq0uu0v9ugyeezjcf6kdsm7jmxa4rmx4ucps5arhrq
@@ -56,7 +63,7 @@ sops:
             TnRuU2xxNUNqNGM2MVZCSjQvbC82REUKOozt1ZApVdHXPaQA8SWZX3KfKXl5JgKY
             SlkwmVGDrlYe/pE2ZWwLAe6Otr/egrBp4QkcNr9i9blP3uzne0Phjg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-09-20T17:27:22Z"
-    mac: ENC[AES256_GCM,data:aOA+QPOnqQ5kUSKpdmyWz0pSKGkMsOBm5/fcxoQrNwCPfmrnzV+wUDpRmoKIOzq9H85mQRtHJDC0TLO1+Rh6wIOOwWZKkOVwshxulTjNZfNRONSXSZDW+yfuAoeTj7srdwEs0JYKFdOPWZ5EgoR69sSFuVCS/q88Spmy8xhgSl0=,iv:DVUE11yVskvBSd89qWeRouoKuO9nzCvJRn2et7i3tMY=,tag:80+TfEx9D6KS+aCCggv1pA==,type:str]
+    lastmodified: "2025-10-04T01:22:29Z"
+    mac: ENC[AES256_GCM,data:K74iu5OLfoYwLqP4RxB/yFtyWjsFaybR0S0aFwNinaCXUpG/tYcDzHSZqxf8wph88ZqrG6Xcy1ihG1z1cWNR5jn0EoLEzVedikgZpYHVeEPxUZ8b6xpav7ppJfi7a2AYvsjCYc3JHK84wFlo5e79nSBluqIyclV8Ayjm0jUeFA4=,iv:rnX3PIaIJwIF/5BU2+VXaVVkxuYIGxg53MDxtlfxQeA=,tag:z2VDtD2zSMNO28hmqo7OoQ==,type:str]
     encrypted_regex: ^(ovh_*|url|rule)
     version: 3.10.2

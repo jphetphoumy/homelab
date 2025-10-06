@@ -1,0 +1,6 @@
+---
+- name: Manage nfs server
+  hosts: group_nas
+  gather_facts: false
+  roles:
+    - nfs

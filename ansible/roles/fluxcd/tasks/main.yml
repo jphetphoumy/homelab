@@ -1,0 +1,5 @@
+---
+- name: Install fluxcd
+  ansible.builtin.shell: "curl -s https://fluxcd.io/install.sh | sudo bash"
+  args:
+    creates: /usr/local/bin/flux

@@ -1,0 +1,6 @@
+- name: Install fluxcd on k3s
+  become: true
+  gather_facts: false
+  hosts: k3s-master
+  roles:
+    - fluxcd

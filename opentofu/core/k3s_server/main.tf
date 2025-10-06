@@ -17,4 +17,5 @@ module "virtual_machine" {
   memory    = 4096
   cpu       = 2
   disk_size = 50
+  dns_servers = ["192.168.1.8"]
 }

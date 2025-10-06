@@ -1,3 +1,8 @@
+variable "dns_servers" {
+  type = list(string)
+  default = ["192.168.1.1"]
+}
+
 variable "mount_points" {
   type = list(object({
     volume = string
