@@ -25,6 +25,10 @@ locals {
       }]
       mount_points = [
         {
+          volume = "/mnt/pve/data/disks/kubernetes"
+          path   = "/srv/kubernetes"
+        },
+        {
           volume = "/media/Disk2"
           path   = "/mnt/backup"
         }

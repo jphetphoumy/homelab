@@ -2,5 +2,9 @@
 - name: Manage nfs server
   hosts: group_nas
   gather_facts: false
+  pre_tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
   roles:
     - nfs
