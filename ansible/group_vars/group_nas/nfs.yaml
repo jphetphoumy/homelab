@@ -1,5 +1,5 @@
 nfs_exports:
-  - path: /srv/Music
+  - path: /srv/kubernetes
     clients:
       - 192.168.1.0/24
     options:
