@@ -1,3 +1,8 @@
+variable "pool_id" {
+  type = string
+  default = null
+}
+
 variable "dns_servers" {
   type = list(string)
   default = [

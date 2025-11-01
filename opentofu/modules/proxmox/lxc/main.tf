@@ -1,6 +1,7 @@
 resource "proxmox_virtual_environment_container" "this" {
   description = "Managed by Opentofu"
 
+  pool_id = var.pool_id
   node_name = var.node_name
   vm_id     = var.vm_id
 
