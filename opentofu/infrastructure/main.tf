@@ -22,6 +22,7 @@ module "lxc" {
   cpu                = each.value.cpu
   memory             = each.value.memory
   disk_size          = each.value.disk_size
+  pool_id            = "production-pool"
 }
 
 module "vm_image" {
