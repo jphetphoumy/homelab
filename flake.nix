@@ -15,16 +15,16 @@
       let pkgs = import nixpkgs { inherit system; config.allowUnfree = true;};
       in {
         default = pkgs.mkShell {
-          packages = with pkgs; [ 
+          packages = with pkgs; [
             # Devops tools
-            ansible 
+            ansible
             kubectl
             opentofu
-            ansible
             packer
             fluxcd
             # Linter and test
             tflint
+            ansible-lint
             molecule
           ];
         };
@@ -32,4 +32,3 @@
 
   };
 }
-

@@ -2,7 +2,7 @@
 # tasks file for gitlab
 - name: Install dependencies
   ansible.builtin.apt:
-    name: 
+    name:
       - curl
       - openssh-server
       - ca-certificates
@@ -20,7 +20,7 @@
     #name: "{{ gitlab_package }}{{ '=' + gitlab_version if gitlab_version else '' }}"
     name: "{{ gitlab_package }}"
     state: present
-    update_cache: true 
+    update_cache: true
   environment:
     GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
 
@@ -36,12 +36,12 @@
 #  ansible.builtin.slurp:
 #    src: /etc/gitlab/initial_root_password
 #  register: slurped_password
-#  when: gitlab_root_password == "" 
+#  when: gitlab_root_password == ""
 #
 #- name: Extract password with regex
 #  ansible.builtin.set_fact:
 #    gitlab_root_password: "{{ (slurped_password['content'] | b64decode) | regex_search('Password: (.+)', '\\1') }}"
-#  when: gitlab_root_password == "" 
+#  when: gitlab_root_password == ""
 #
 #- name: Show decoded GitLab root password
 #  ansible.builtin.debug:

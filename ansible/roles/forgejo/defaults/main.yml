@@ -30,4 +30,3 @@ forgejo_database_path: "/var/lib/forgejo/data/forgejo.db"
 # Security
 
 forgejo_security_install_lock: True
-

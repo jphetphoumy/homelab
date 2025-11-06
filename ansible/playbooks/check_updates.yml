@@ -1,5 +1,5 @@
-- name: Upgrade servers 
-  hosts: all 
+- name: Upgrade servers
+  hosts: all
   become: true
   tasks:
     - name: Update apt cache
@@ -14,7 +14,7 @@
     - name: Show upgradable packages
       debug:
         var: upgrade_list.stdout_lines
-    
+
     - name: Upgrade the server
       apt:
         upgrade: full
@@ -26,7 +26,7 @@
         path: /var/run/reboot-required
       register: reboot_required
       when: upgrade_list.stdout_lines|length != 1
-  
+
     - name: Reboot if needed
       reboot:
       when: upgrade_list.stdout_lines|length != 1 or reboot_required.stat is defined and reboot_required.stat.exists

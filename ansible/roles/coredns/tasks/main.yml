@@ -57,4 +57,3 @@
   systemd:
     name: coredns
     enabled: true
-

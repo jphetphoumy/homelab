@@ -1,8 +1,8 @@
 resource "gitlab_group" "this" {
   for_each = local.groups
-  name = each.key 
-  path = each.value.path 
-  description = each.value.description 
+  name = each.key
+  path = each.value.path
+  description = each.value.description
 }
 
 module "mirror" {

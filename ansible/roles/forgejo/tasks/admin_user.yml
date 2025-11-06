@@ -6,11 +6,11 @@
     timeout: 60
 
 - name: Create admin user
-  ansible.builtin.command: | 
-    forgejo admin user create 
+  ansible.builtin.command: |
+    forgejo admin user create
     --config=/etc/forgejo/app.ini
     --admin
-    --username {{ forgejo_admin_username }} 
+    --username {{ forgejo_admin_username }}
     {% if forgejo_admin_password is not defined %}
     --random-password
     {% else %}
@@ -19,7 +19,7 @@
     {% if forgejo_admin_password is not defined %}
     --must-change-password
     {% endif %}
-    --email {{ forgejo_admin_email }} 
+    --email {{ forgejo_admin_email }}
   become: true
   become_user: git
   become_method: su
