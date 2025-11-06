@@ -10,7 +10,7 @@
 
 - name: Ensure group "git" exists
   ansible.builtin.group:
-    name: git 
+    name: git
     state: present
 
 - name: Create system user for Git
@@ -34,7 +34,7 @@
 - name: Create forgejo folder config
   ansible.builtin.file:
     name: /etc/forgejo
-    owner: root 
+    owner: root
     group: git
     mode: '0770'
     state: directory
@@ -53,13 +53,12 @@
     src: "forgejo.service.j2"
     dest: /etc/systemd/system/forgejo.service
 
-- name: Enable forgejo 
+- name: Enable forgejo
   ansible.builtin.systemd_service:
     enabled: true
-    name: forgejo 
+    name: forgejo
 
-- name: Service forgejo 
+- name: Service forgejo
   ansible.builtin.systemd_service:
-    state: started 
-    name: forgejo 
-
+    state: started
+    name: forgejo

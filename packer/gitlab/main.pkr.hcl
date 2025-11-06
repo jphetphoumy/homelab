@@ -47,17 +47,17 @@ source "proxmox-iso" "gitlab" {
 
   http_port_min = var.http_port
   http_port_max = var.http_port
- 
-  tags = "gitlab" 
+
+  tags = "gitlab"
   efi_config {
     efi_storage_pool  = "local-lvm"
     efi_type          = "4m"
     pre_enrolled_keys = true
   }
-  
+
   http_directory           = "config"
   insecure_skip_tls_verify = true
-  
+
   disks {
     disk_size         = "40G"
     storage_pool      = "local-lvm"
@@ -71,23 +71,23 @@ source "proxmox-iso" "gitlab" {
     iso_storage_pool = "local"
     unmount          = true
   }
-  
+
   network_adapters {
     bridge = "vmbr0"
     model  = "virtio"
   }
-  
+
   node          = "proxmox2"
   password      = "${var.proxmox_password}"
   proxmox_url   = "${var.proxmox_url}"
   ssh_password  = "packer"
   ssh_username  = "packer"
   ssh_timeout   = "15m"
-  
+
   template_description = "Gitlab"
   template_name        = "gitlab"
   username             = "${var.proxmox_username}"
-  
+
   memory       = 4096
   cores        = 2
   cpu_type     = "host"
@@ -95,7 +95,7 @@ source "proxmox-iso" "gitlab" {
 
 build {
   sources = ["sources.proxmox-iso.gitlab"]
-  
+
   // Ansible provisioner to update and install packages including GitLab
   provisioner "ansible" {
     playbook_file = "../ansible/playbooks/gitlab.yaml"

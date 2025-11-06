@@ -1,6 +1,6 @@
 resource "gitlab_project" "this" {
-  name = var.repository 
-  namespace_id = var.namespace_id 
+  name = var.repository
+  namespace_id = var.namespace_id
   import_url = "https://github.com/jphetphoumy/${var.repository}"
 }
 
@@ -27,7 +27,7 @@ output "ssh" {
 
 resource "github_repository_deploy_key" "this" {
   title = "Gitlab deploy key - Mirror Synchro"
-  repository = var.repository 
+  repository = var.repository
   key = data.gitlab_project_mirror_public_key.this.public_key
   read_only = false
 }

@@ -34,7 +34,7 @@
   register: gpg_key_check
   changed_when: false
   failed_when: false
-  
+
 - name: Import Forgejo GPG key
   ansible.builtin.shell: "gpg --keyserver keys.openpgp.org --recv {{ forgejo_key_id }}"
   when: gpg_key_check.rc != 0

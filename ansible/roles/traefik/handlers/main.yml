@@ -7,4 +7,3 @@
   systemd:
     name: traefik
     state: restarted
-
