@@ -1,5 +1,5 @@
 variable "dns_servers" {
-  type = list(string)
+  type    = list(string)
   default = ["192.168.1.1"]
 }
 
@@ -114,16 +114,16 @@ variable "tiers" {
 }
 
 variable "clone_id" {
-  type = number
+  type    = number
   default = null
 }
 
 variable "full_clone" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "qemu_agent" {
-  type = bool
+  type    = bool
   default = false
 }

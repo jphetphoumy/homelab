@@ -14,7 +14,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     for_each = var.clone_id != null ? [1] : []
     content {
       vm_id = var.clone_id
-      full = var.full_clone
+      full  = var.full_clone
     }
   }
 
@@ -28,12 +28,12 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   cpu {
     cores = var.cpu
-    type         = "x86-64-v2-AES"  # recommended for modern CPUs
+    type  = "x86-64-v2-AES" # recommended for modern CPUs
   }
 
   memory {
     dedicated = var.memory
-    floating = var.memory
+    floating  = var.memory
   }
 
   disk {
@@ -56,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     }
 
     user_account {
-      keys = var.ssh_public_keys
+      keys     = var.ssh_public_keys
       username = var.username
     }
   }
@@ -66,7 +66,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     content {
       bridge   = network_device.value.bridge
       firewall = network_device.value.firewall
-      vlan_id = network_device.value.vlan_id
+      vlan_id  = network_device.value.vlan_id
     }
   }
 

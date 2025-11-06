@@ -1,11 +1,11 @@
 locals {
   groups = {
     devops = {
-      path = "devops"
+      path        = "devops"
       description = "All project related to devops"
     }
     hacking = {
-      path = "hacking"
+      path        = "hacking"
       description = "All project related to hacking, malware, zero day"
     }
   }

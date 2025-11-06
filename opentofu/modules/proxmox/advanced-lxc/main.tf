@@ -42,7 +42,7 @@ resource "proxmox_virtual_environment_container" "this" {
       name     = network_interface.value.name
       bridge   = network_interface.value.bridge
       firewall = network_interface.value.firewall
-      vlan_id = network_interface.value.vlan_id
+      vlan_id  = network_interface.value.vlan_id
     }
   }
 
@@ -75,7 +75,7 @@ resource "null_resource" "wait_for" {
   depends_on = [proxmox_virtual_environment_container.this]
 
   connection {
-    host = trimsuffix(var.ipv4_address, "/24")
+    host        = trimsuffix(var.ipv4_address, "/24")
     private_key = file("/home/jphetphoumy/.ssh/id_ed25519")
   }
 

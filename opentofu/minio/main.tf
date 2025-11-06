@@ -24,11 +24,11 @@ module "lxc" {
 }
 
 data "template_file" "minio_env" {
-  template = "${file("${path.module}/minio_env.tftpl")}"
+  template = file("${path.module}/minio_env.tftpl")
 
   vars = {
     minio_root_password = var.minio_root_password
-    minio_root_user = var.minio_root_user
+    minio_root_user     = var.minio_root_user
   }
 }
 
@@ -39,7 +39,7 @@ resource "null_resource" "minio-init" {
   }
 
   provisioner "file" {
-    content = data.template_file.minio_env.rendered
+    content     = data.template_file.minio_env.rendered
     destination = "/etc/default/minio"
   }
 

@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_container" "this" {
   description = "Managed by Opentofu"
 
-  pool_id = var.pool_id
+  pool_id   = var.pool_id
   node_name = var.node_name
   vm_id     = var.vm_id
 
@@ -47,7 +47,7 @@ resource "proxmox_virtual_environment_container" "this" {
       name     = network_interface.value.name
       bridge   = network_interface.value.bridge
       firewall = network_interface.value.firewall
-      vlan_id = network_interface.value.vlan_id
+      vlan_id  = network_interface.value.vlan_id
     }
   }
 

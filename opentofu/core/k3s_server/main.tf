@@ -12,10 +12,10 @@ module "virtual_machine" {
   ssh_public_keys = [
     file("/home/jphetphoumy/.ssh/id_ed25519.pub")
   ]
-  tags      = ["k3s", "k3s_master", "virtual_machine", "linux"]
-  username  = "jphetphoumy"
-  memory    = 4096
-  cpu       = 2
-  disk_size = 50
+  tags        = ["k3s", "k3s_master", "virtual_machine", "linux"]
+  username    = "jphetphoumy"
+  memory      = 4096
+  cpu         = 2
+  disk_size   = 50
   dns_servers = ["192.168.1.8"]
 }

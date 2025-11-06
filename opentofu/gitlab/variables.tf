@@ -11,6 +11,6 @@ variable "github_token" {
 }
 
 variable "gitlab_password" {
-  type = string
+  type      = string
   sensitive = true
 }

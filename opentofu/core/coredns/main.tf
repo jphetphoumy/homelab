@@ -21,7 +21,7 @@ resource "null_resource" "wait_for" {
   depends_on = [module.coredns]
 
   connection {
-    host = "192.168.1.8"
+    host        = "192.168.1.8"
     private_key = file("/home/jphetphoumy/.ssh/id_ed25519")
   }
 

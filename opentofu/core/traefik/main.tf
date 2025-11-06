@@ -28,7 +28,7 @@ resource "null_resource" "wait_for" {
   depends_on = [module.traefik]
 
   connection {
-    host = "192.168.1.7"
+    host        = "192.168.1.7"
     private_key = file("/home/jphetphoumy/.ssh/id_ed25519")
   }
 

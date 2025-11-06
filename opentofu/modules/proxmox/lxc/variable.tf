@@ -1,5 +1,5 @@
 variable "pool_id" {
-  type = string
+  type    = string
   default = null
 }
 
@@ -19,17 +19,17 @@ variable "mount_points" {
 
 variable "network_interfaces" {
   type = list(object({
-    name = string
-    bridge = string
+    name     = string
+    bridge   = string
     firewall = bool
-    vlan_id = number
+    vlan_id  = number
   }))
 
   default = [{
-    name = "eth0"
-    bridge = "vmbr0"
+    name     = "eth0"
+    bridge   = "vmbr0"
     firewall = true
-    vlan_id = null
+    vlan_id  = null
   }]
 }
 variable "tags" {
