@@ -1,0 +1,3 @@
+locals {
+  playbook = "restic.yaml"
+}
