@@ -1,5 +1,5 @@
 ---
-plugin: community.general.proxmox
+plugin: community.proxmox.proxmox
 user: root@pam
 # token_id: root_api
 # token_secret: "{{ lookup('ansible.builtin.env', 'PROXMOX_ROOT_TOKEN_API') }}"

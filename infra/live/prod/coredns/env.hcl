@@ -1,0 +1,3 @@
+locals {
+  playbook = "coredns.yaml"
+}
